@@ -1,0 +1,126 @@
+.login-signup-container {
+  width: 100%;
+  margin: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.text-container {
+  background-color: #3c91e6;
+  height: 516px;
+  width: 371px;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.text-container .text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: yellowgreen; */
+  height: 100%;
+}
+.text-container .text h1 {
+  font-family: "Kanit";
+  color: #342e37;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.text-container .text p {
+  font-family: "Kanit";
+  color: #342e37;
+}
+.login-container {
+  width: 371px;
+  height: 516px;
+  /* margin: auto; */
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  /* margin-top: 30px; */
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+h2 {
+  text-align: center;
+  color: #342e37;
+  font-weight: 700;
+  font-size: 40px;
+  font-family: "Kanit";
+}
+.sign-up-as {
+  display: flex;
+  margin: 30px 0;
+  justify-content: space-around;
+}
+.sign-up-as .btn {
+  font-family: "Kanit";
+  background-color: #eee;
+  color: #342e37;
+  width: 119px;
+  height: 50px;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border: none;
+  cursor: pointer;
+}
+form {
+  width: 100%;
+}
+.input-container {
+  margin-bottom: 15px;
+
+  width: 100%;
+}
+.input-container-margin {
+  margin-top: 20px;
+
+  width: 100%;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline: none;
+}
+
+.signup-login-confirm {
+  width: 323px;
+  height: 45px;
+  font-family: "Kanit";
+  background-color: #3c91e6;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  border: none;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+}
+.login-container .error-message {
+  margin: 20px 0;
+  text-align: center;
+  color: red;
+  font-family: "Kanit";
+}
+.switch-login-signup {
+  margin-top: 20px;
+  font-family: "Kanit";
+  color: #342e37;
+}
+.switch-login-signup span {
+  cursor: pointer;
+  color: #3c91e6;
+  font-weight: 500;
+}
