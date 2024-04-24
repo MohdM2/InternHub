@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mysql:
+    container_name: mysql_database
+    build: ./database
+    # ports:
+    #   - 33333:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pintern123321"]
+      retries: 10
+      interval: 3s
+      timeout: 3s
+  java_app:
+    container_name: spring_api
+    build: ./api
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_database:3306/internHub
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
