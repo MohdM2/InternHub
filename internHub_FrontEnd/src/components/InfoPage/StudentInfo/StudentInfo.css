@@ -1,0 +1,133 @@
+.s-student-info-container {
+  background-color: #f4f2ee;
+  height: 115vh;
+}
+.s-student-info-container .s-black-bg {
+  height: 107px;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+.s-student-info-container .s-black-bg .s-logo {
+  font-size: 50px;
+  cursor: pointer;
+  color: white;
+}
+.s-student-info-container .s-black-bg .s-logout {
+  background-color: white;
+  border: none;
+  padding: 10px 30px;
+  font-family: "Kanit";
+  border-radius: 10px;
+  cursor: pointer;
+}
+.s-student-info-container .s-white-bg {
+  /* background-color: #d9d9d9; */
+  height: 107px;
+  width: 100%;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+.s-student-info-container .s-white-bg .s-name-and-major {
+  /* background-color: greenyellow; */
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.s-student-info-container .s-white-bg .s-name-and-major .s-name {
+  font-family: "Kanit";
+  font-weight: 400;
+}
+.s-student-info-container .s-white-bg .s-name-and-major .input {
+  width: 400px;
+  margin-bottom: 0 !important;
+  font-family: "Kanit" !important;
+}
+
+.s-form-container {
+  padding: 0 30px;
+  /* background-color: green; */
+  height: 70vh;
+  margin-top: 20px;
+}
+.s-form-container .form {
+  /* background-color: blueviolet; */
+}
+.s-input-container {
+  /* background-color: aqua; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.s-input-container .s-label {
+  font-family: "Kanit";
+  font-weight: 700;
+  font-size: 26px;
+}
+.s-input-container .input {
+  /* background-color: green; */
+  width: 400px;
+  margin-bottom: 20px;
+  font-family: "Kanit";
+}
+/* .s-input-container .input-file {
+  background-color: white;
+  width: 400px;
+  margin-bottom: 20px;
+  padding: 10px;
+  text-align: center;
+} */
+.s-input-container input[type="file"] {
+  display: none;
+}
+.s-input-container .custom-file-upload {
+  font-family: "Kanit";
+  background-color: #3c91e6;
+  margin: 20px 0;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: white;
+}
+.s-input-container-textarea {
+  /* background-color: green; */
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.s-textarea-label {
+  font-family: "Kanit";
+  font-weight: 700;
+  font-size: 26px;
+}
+.s-textarea {
+  resize: none;
+  width: 500px;
+  height: 800px;
+  font-family: "Kanit";
+  border: 1px solid #ccc;
+  padding: 3px;
+}
+
+.s-button {
+  display: block;
+  margin: auto;
+  margin: 20px auto;
+  font-family: "Kanit";
+  font-size: 18px;
+  color: white;
+  background-color: #3c91e6;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 15px;
+  cursor: pointer;
+}

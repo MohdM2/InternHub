@@ -1,0 +1,53 @@
+.w-container {
+  /* background-color: yellowgreen; */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #d9d9d9;
+}
+.w-check-icon-container {
+  /* background-color: gold; */
+  height: 120px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+}
+.w-check-icon-container .w-check-icon {
+  font-size: 100px;
+  color: #3c91e6;
+}
+.w-text-container {
+  /* background-color: yellowgreen; */
+}
+.w-text-container .w-header {
+  text-align: center;
+  font-family: "Kanit";
+  font-weight: 700;
+}
+.w-text-container .w-paragraph {
+  font-family: "Kanit";
+  font-size: 20px;
+  font-weight: 400;
+  text-align: center;
+  /* background-color: green; */
+  width: 800px;
+}
+.go-to-info {
+  width: 200px;
+  margin-top: 30px;
+}
+
+.go-to-info .w-submit {
+  font-family: "Kanit";
+  font-weight: 500;
+  font-size: 20px;
+  border: none;
+  border-radius: 15px;
+  background-color: #3c91e6;
+  color: white;
+  width: 200px;
+  cursor: pointer;
+  height: 60px;
+}
