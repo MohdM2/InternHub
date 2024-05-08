@@ -2,6 +2,7 @@ import "./Welcome.css";
 import { useLocation } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useNavigate } from "react-router-dom";
+import { Password } from "@mui/icons-material";
 export default function Welcome() {
   const navigate = useNavigate();
   let location = useLocation();
@@ -11,6 +12,8 @@ export default function Welcome() {
         state: {
           userType: location.state.userType,
           username: location.state.username,
+          email: location.state.email,
+          Password: location.state.Password,
         },
       });
     } else if (location.state.userType == "company") {
@@ -18,6 +21,8 @@ export default function Welcome() {
         state: {
           userType: location.state.userType,
           username: location.state.username,
+          email: location.state.email,
+          Password: location.state.Password,
         },
       });
     }

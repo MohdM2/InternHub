@@ -1,71 +1,50 @@
+import "./CompanyEdit.css";
 import React, { useState } from "react";
-import "./CompanyInfo.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Phone } from "@mui/icons-material";
-import Progressbar from "../../Progressbar/Progressbar";
-function CompanyInfo() {
+export default function CompanyEdit() {
   const location = useLocation();
   let navigate = useNavigate();
-  const [companyName, setCompanyName] = useState(location.state.username);
+  const [companyName, setCompanyName] = useState(location.state.companyName);
   const [userType, setUserType] = useState(location.state.userType);
   const [email, setEmail] = useState(location.state.email);
   const [password, setPassword] = useState(location.state.password);
-  const [bio, setBio] = useState("");
-  const [numEmployees, setNumEmployees] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [logo, setLogo] = useState("");
-  const [phone, setPhone] = useState("");
-  const [companySpeciality, setCompanySpeciality] = useState("");
+  const [bio, setBio] = useState(location.state.bio);
+  const [numEmployees, setNumEmployees] = useState(location.state.numEmployees);
+  const [address, setAddress] = useState(location.state.address);
+  const [city, setCity] = useState(location.state.city);
+  const [country, setCountry] = useState(location.state.country);
+  const [logo, setLogo] = useState(location.state.logo);
+  const [phone, setPhone] = useState(location.state.phone);
+  const [companySpeciality, setCompanySpeciality] = useState(
+    location.state.companySpeciality
+  );
 
-  function calculateProgress() {
-    const totalFields = 10; // Total number of input fields
-    let completedFields = 0;
-
-    if (companyName) completedFields++;
-
-    if (bio) completedFields++;
-    if (numEmployees) completedFields++;
-    if (address) completedFields++;
-    if (city) completedFields++;
-    if (country) completedFields++;
-    if (logo) completedFields++;
-    if (email) completedFields++;
-    if (phone) completedFields++;
-    if (companySpeciality) completedFields++;
-
-    return Math.floor((completedFields / totalFields) * 100);
-  }
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle form submission logic here
-    // console.log(companyName);
+    console.log(phone);
     // console.log(password);
     // console.log(userType);
     // console.log(email);
 
-    if (companySpeciality != "")
-      navigate("/companydone", {
-        state: {
-          companyName: companyName,
-          userType: userType,
-          email: email,
-          Password: password,
-          bio: bio,
-          numEmployees: numEmployees,
-          address: address,
-          city: city,
-          country: country,
-          logo: logo,
-          phone: phone,
-          companySpeciality: companySpeciality,
-        },
-      });
-    else {
-      alert("please enter a company speciality");
-    }
+    navigate("/companyprofile", {
+      state: {
+        companyName: companyName,
+        userType: userType,
+        email: email,
+        Password: password,
+        bio: bio,
+        numEmployees: numEmployees,
+        address: address,
+        city: city,
+        country: country,
+        logo: logo,
+        phone: phone,
+        companySpeciality: companySpeciality,
+      },
+    });
   };
   //log out function
   function logout() {
@@ -90,7 +69,6 @@ function CompanyInfo() {
           onClick={logout}
         />
       </div>
-      <Progressbar progress={calculateProgress()} />
       <div className="c-white-bg">
         <div className="c-name-and-major">
           <div className="c-photo-container">
@@ -106,14 +84,13 @@ function CompanyInfo() {
               onChange={handleLogoChange} // Call handleLogoChange function on file selection
             />
           </div>
-          <h1 className="c-name"> {location.state.username}</h1>
+          <h1 className="c-name"> {location.state.companyName}</h1>
           <input
             value={companySpeciality}
             onChange={(e) => setCompanySpeciality(e.target.value)}
             className="input"
             type="text"
-            placeholder="company speciality"
-            required
+            placeholder={"company speciality"}
           />
         </div>
       </div>
@@ -140,7 +117,6 @@ function CompanyInfo() {
                 type="text"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
-                required
               />
             </div>
 
@@ -151,7 +127,6 @@ function CompanyInfo() {
                 type="number"
                 value={numEmployees}
                 onChange={(e) => setNumEmployees(e.target.value)}
-                required
               />
             </div>
             <div className="c-input-container">
@@ -161,7 +136,6 @@ function CompanyInfo() {
                 value={address}
                 className="input"
                 onChange={(e) => setAddress(e.target.value)}
-                required
               />
             </div>
 
@@ -172,7 +146,6 @@ function CompanyInfo() {
                 type="text"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                required
               />
             </div>
             <div className="c-input-container">
@@ -182,7 +155,6 @@ function CompanyInfo() {
                 className="input"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                required
               />
             </div>
 
@@ -193,7 +165,6 @@ function CompanyInfo() {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                required
               />
             </div>
             <button className="c-submit-btn" type="submit">
@@ -205,5 +176,3 @@ function CompanyInfo() {
     </div>
   );
 }
-
-export default CompanyInfo;

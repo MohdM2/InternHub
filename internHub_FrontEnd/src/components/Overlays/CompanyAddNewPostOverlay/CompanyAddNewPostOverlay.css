@@ -1,0 +1,81 @@
+.canp-container {
+  /* background-color: green; */
+  display: flex;
+  justify-content: space-between;
+}
+.canp-left-side {
+  /* background-color: blue; */
+  width: 45%;
+}
+.canp-left-side .canp-div {
+  /* background-color: orange; */
+  width: 100%;
+  margin-bottom: 40px;
+}
+.canp-left-side .canp-div .canp-field {
+  width: 100%;
+  font-family: "Kanit";
+}
+.canp-right-side {
+  background-color: rgb(91, 220, 252);
+  width: 45%;
+}
+.canp-right-side .canp-tips {
+  background-color: #bed7ef;
+  height: 100%;
+  width: 80%;
+  padding: 25px;
+}
+.canp-right-side .canp-tips h1 {
+  font-family: "Kanit";
+  font-weight: 700;
+}
+.canp-right-side .canp-tips p {
+  font-family: "Kanit";
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+.canp-right-side .canp-tips p span {
+  font-weight: 700;
+}
+
+.canp-details-container {
+}
+.canp-details-container .canp-title {
+  text-align: center;
+}
+.canp-preview-details {
+  /* background-color: aqua; */
+  display: flex;
+  margin-top: 30px;
+}
+.canp-preview-details .canp-img {
+}
+.canp-preview-details .canp-img img {
+}
+.canp-text {
+  /* background-color: gold; */
+  margin-left: 10px;
+}
+.canp-text h5 {
+  font-family: "Kanit";
+  font-size: 25px;
+  font-weight: 500;
+}
+.canp-text h6 {
+  font-family: "Kanit";
+  font-size: 16px;
+  font-weight: 500;
+}
+.canp-boxes {
+}
+.canp-boxes span {
+  font-family: "Kanit";
+  font-size: 11px;
+  font-weight: 500;
+  background-color: white;
+  margin-right: 5px;
+  border-radius: 10px;
+  padding: 5px 5px;
+  border: 1px solid #777;
+}

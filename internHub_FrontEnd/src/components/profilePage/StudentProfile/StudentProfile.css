@@ -1,0 +1,208 @@
+.sp-container {
+  background-color: #d9d9d9;
+  height: 120vh;
+  width: 100%;
+}
+.sp-black-bg {
+  height: 107px;
+  width: 100%;
+
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #08aeea;
+  background-image: linear-gradient(0deg, #08aeea 0%, #2af598 100%);
+}
+.sp-black-bg .sp-logo {
+  font-size: 50px;
+  cursor: pointer;
+  color: white;
+}
+.sp-black-bg .sp-logout {
+  background-color: white;
+  border: none;
+  padding: 10px 30px;
+  font-family: "Kanit";
+  border-radius: 10px;
+  cursor: pointer;
+}
+.sp-container .sp-white-bg {
+  /* background-color: purple; */
+  height: 107px;
+  width: 100%;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  position: relative;
+}
+
+.sp-white-bg .sp-name-and-major {
+  /* background-color: greenyellow; */
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sp-name-and-major .sp-name {
+  font-family: "Kanit";
+  font-weight: 400;
+}
+.sp-name-and-major .sp-major {
+  font-family: "Kanit";
+  font-weight: 400;
+  font-size: 20px;
+}
+.sp-white-bg .sp-editprofile {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.sp-white-bg .sp-editprofile .input {
+  border: none;
+  color: white;
+  background-color: #3c91e6;
+  font-family: "Kanit";
+  border-radius: 15px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.sp-white-bg .sp-editprofile .input:hover {
+  background-color: #0753a0;
+}
+.sp-container .sp-info-content {
+  display: flex;
+  justify-content: space-around;
+  height: 75vh;
+  font-family: "Kanit";
+}
+/* left info */
+
+.sp-info-content .sp-left-info {
+  /* background-color: red; */
+  width: 100%;
+  padding: 20px;
+}
+.sp-info-content .sp-left-info h1 {
+  font-family: "Kanit";
+  margin-bottom: 20px;
+}
+.sp-info-content .sp-left-info p {
+  font-family: "Kanit";
+  width: 80%;
+}
+hr {
+  background-color: #9d9d9d;
+  height: 1px;
+  margin: 10px 0;
+  width: 80%;
+}
+.sp-info-content .sp-left-info .sp-education {
+  /* background-color: aqua; */
+}
+.sp-info-content .sp-left-info .sp-education h1 {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.sp-info-content .sp-left-info .sp-education h3 {
+  margin-bottom: -5px;
+}
+
+.sp-info-content .sp-left-info .sp-education .sp-from,
+.sp-info-content .sp-left-info .sp-education .sp-to {
+  color: #838383;
+}
+.sp-info-content .sp-left-info .sp-education .sp-gpa {
+  font-size: 20px;
+}
+.sp-info-content .sp-left-info .sp-education .sp-gpa span {
+}
+
+/* \\\left info\\\ */
+
+/* right info */
+.sp-info-content .sp-right-info {
+  width: 100%;
+  padding: 20px;
+  /* background-color: yellowgreen; */
+}
+.sp-info-content .sp-right-info .sp-information {
+  font-family: "Kanit";
+  margin-bottom: 20px;
+}
+.sp-info-content .sp-right-info .sp-information h1 {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.sp-right-info .sp-information {
+}
+.sp-right-info .sp-information .sp-email {
+}
+.sp-right-info .sp-information .sp-email span {
+  display: block;
+  margin-bottom: 15px;
+  color: #4470c7;
+}
+.sp-right-info .sp-information .sp-location {
+  /* background-color: yellow; */
+}
+.sp-right-info .sp-information .sp-location span {
+  display: block;
+  margin-bottom: 15px;
+  color: #4470c7;
+}
+.sp-right-info .sp-information .sp-phone {
+  /* background-color: yellow; */
+}
+.sp-right-info .sp-information .sp-phone span {
+  display: block;
+  margin-bottom: 15px;
+  color: #4470c7;
+}
+.sp-right-info .sp-information .sp-resume {
+  /* background-color: yellow; */
+}
+.sp-right-info .sp-information .sp-resume li {
+  display: block;
+  margin-bottom: 15px;
+  color: #4470c7;
+}
+.sp-right-info .sp-skills {
+  /* background-color: khaki; */
+  /* margin-top: 20px; */
+}
+.sp-right-info .sp-skills .first-row span,
+.sp-right-info .sp-skills .second-row span {
+  background-color: white;
+  padding: 5px 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  margin-right: 20px;
+}
+.sp-right-info .sp-skills .second-row span {
+  margin-top: 15px;
+}
+.sp-right-info .sp-languages {
+}
+
+.sp-right-info .sp-languages h1 {
+  margin-bottom: 15px;
+}
+.sp-right-info .sp-languages span {
+  background-color: white;
+  padding: 5px 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  margin-right: 20px;
+}
+/* \\\right info\\\ */

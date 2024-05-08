@@ -6,6 +6,29 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #4158d0;
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+
+  background-color: #08aeea;
+  background-image: linear-gradient(0deg, #08aeea 0%, #2af598 100%);
+
+  position: relative;
+}
+.login-signup-container::before {
+  content: "Intern Hub";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 70px;
+  font-family: "Kanit";
+  font-weight: 700;
+  color: white;
 }
 .text-container {
   background-color: #3c91e6;
@@ -70,6 +93,13 @@ h2 {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border: none;
   cursor: pointer;
+  transition: 0.3s;
+}
+.sign-up-as .btn:hover {
+  background-color: #3c91e6;
+}
+.active-blue-btn {
+  background-color: #3c91e6;
 }
 form {
   width: 100%;
@@ -107,6 +137,10 @@ input[type="email"] {
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   cursor: pointer;
+  transition: 0.3s;
+}
+.signup-login-confirm:hover {
+  background-color: #0753a0;
 }
 .login-container .error-message {
   margin: 20px 0;

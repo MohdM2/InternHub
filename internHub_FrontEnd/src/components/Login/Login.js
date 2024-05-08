@@ -14,6 +14,7 @@ function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [userType, setUserType] = useState("student");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(false); // New state variable for password validation
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,16 +27,32 @@ function LoginPage() {
         setErrorMessage("Please enter a valid email address");
         return;
       }
+      if (!isPasswordValid) {
+        setErrorMessage(
+          "Password must contain uppercase letters, numbers, and symbols. @#$%&*"
+        );
+        return;
+      }
       // Handle sign-up logic here
       if (userType === "student") {
         // Redirect to the student info page after signing up
         navigate("/welcome", {
-          state: { userType: userType, username: username },
+          state: {
+            userType: userType,
+            username: username,
+            email: email,
+            password: password,
+          },
         });
       } else if (userType === "company") {
         // Redirect to the company info page after signing up
         navigate("/welcome", {
-          state: { userType: userType, username: username },
+          state: {
+            userType: userType,
+            username: username,
+            email: email,
+            password: password,
+          },
         });
       }
     } else {
@@ -55,7 +72,24 @@ function LoginPage() {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   };
+  const handlePasswordChange = (event) => {
+    const newPassword = event.target.value;
+    setPassword(newPassword);
+    // Validate password format
+    const uppercaseRegex = /[A-Z]/;
+    const numberRegex = /[0-9]/;
+    const symbolRegex = /[$&+,:;=?@#|'<>.^*()%!-]/;
+    const isUppercaseValid = uppercaseRegex.test(newPassword);
 
+    const isNumberValid = numberRegex.test(newPassword);
+    const isSymbolValid = symbolRegex.test(newPassword);
+
+    console.log("Uppercase valid:", isUppercaseValid);
+    console.log("Number valid:", isNumberValid);
+    console.log("symbol valid:", isSymbolValid);
+
+    setIsPasswordValid(isUppercaseValid && isNumberValid && isSymbolValid);
+  };
   return (
     <div className="login-signup-container">
       <div className="login-container">
@@ -63,7 +97,10 @@ function LoginPage() {
 
         {isSignUp && (
           <div className="sign-up-as">
-            <button className="btn" onClick={() => setUserType("student")}>
+            <button
+              className={userType == "student" ? " btn active-blue-btn" : "btn"}
+              onClick={() => setUserType("student")}
+            >
               Student
             </button>
             <button className="btn" onClick={() => setUserType("company")}>
@@ -100,7 +137,7 @@ function LoginPage() {
               id="password"
               placeholder="Password"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={handlePasswordChange}
             />
           </div>
 

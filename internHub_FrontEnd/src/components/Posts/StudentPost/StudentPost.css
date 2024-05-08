@@ -1,0 +1,67 @@
+.sti-post {
+  background-color: #fafafa;
+  width: 275px;
+  height: 150px;
+  padding: 10px;
+  display: flex;
+  align-items: flex-start;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 5px;
+  position: relative;
+  transition: 0.5s;
+  margin-bottom: 20px;
+}
+
+.sti-post img {
+  max-width: 40px;
+  border-radius: 50%;
+}
+.sti-post .sti-post-details {
+  /* background-color: green; */
+  margin-left: 10px;
+}
+.sti-post .sti-post-details h1 {
+  font-size: 23px;
+  font-weight: 500;
+}
+.sti-post .sti-post-details span:first-child {
+  font-size: 26px;
+}
+.sti-post .sti-post-details span {
+  display: block;
+  font-size: 13px;
+  font-family: "Kanit";
+  font-weight: 300;
+}
+.sti-post .footer {
+  /* background-color: green; */
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  height: 30px;
+  margin-bottom: 5px;
+}
+.sti-post .footer span {
+  background-color: #d1d1d1;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 10px;
+}
+.sti-post .footer input {
+  background-color: #d1d1d1;
+  color: white;
+  border: none;
+  font-family: "Kanit";
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.sti-post .footer .reject {
+  background-color: red;
+}
+.sti-post .footer .accept {
+  background-color: #1ea81b;
+}

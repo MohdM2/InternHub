@@ -16,8 +16,6 @@ input::-webkit-inner-spin-button {
   padding: 20px;
   justify-content: space-between;
   align-items: center;
-  background-color: #08aeea;
-  background-image: linear-gradient(0deg, #08aeea 0%, #2af598 100%);
 }
 .c-company-info-container .c-black-bg .c-logo {
   font-size: 50px;
@@ -41,8 +39,6 @@ input::-webkit-inner-spin-button {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  /* background-color: purple; */
-  margin-top: 20px;
 }
 .c-company-info-container .c-photo-container {
   display: flex;
@@ -155,8 +151,4 @@ input::-webkit-inner-spin-button {
   padding: 10px 20px;
   border-radius: 10px;
   margin-top: 20px;
-  transition: 0.3s;
-}
-.c-submit-btn:hover {
-  background-color: #0753a0;
 }

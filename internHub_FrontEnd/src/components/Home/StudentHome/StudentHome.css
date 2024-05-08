@@ -1,0 +1,115 @@
+.st-container {
+  background-color: #d9d9d9;
+
+  height: 195vh;
+}
+
+.st-black-bg {
+  height: 107px;
+  width: 100%;
+
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #08aeea;
+  background-image: linear-gradient(0deg, #08aeea 0%, #2af598 100%);
+}
+.st-black-bg .st-logo {
+  font-size: 50px;
+  cursor: pointer;
+  color: white;
+}
+.st-img-logout {
+  /* background-color: purple; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 150px;
+}
+.st-accountCircle {
+  color: white;
+  font-size: 40px !important;
+  cursor: pointer;
+}
+.st-logout {
+  background-color: white;
+  border: none;
+  padding: 10px 30px;
+  font-family: "Kanit";
+  border-radius: 10px;
+  cursor: pointer;
+}
+.st-img-newintern-container {
+  /* background-color: yellow; */
+  margin-top: 20px;
+  height: 50vh;
+  width: 100%;
+  display: flex;
+}
+.st-img-newintern-container .st-img {
+  /* background-color: purple; */
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.st-img-newintern-container .st-img img {
+  width: 400px;
+}
+.st-img-newintern-container .st-text {
+  /* background-color: red; */
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* align-content: space-between; */
+}
+.st-img-newintern-container .st-text h1 {
+  font-family: "Kanit";
+  font-size: 50px;
+}
+.st-img-newintern-container .st-text span {
+  font-family: "Kanit";
+  font-size: 23px;
+  font-weight: 200;
+}
+
+.st-posts-section-container {
+  /* background-color: greenyellow; */
+  margin-top: 20px;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.st-posts-section-container h1 {
+  margin-left: 40px;
+  margin-bottom: 20px;
+}
+
+.st-applications-container,
+.st-apply-container {
+  /* background-color: purple; */
+  padding: 0 50px;
+  display: grid;
+  /* grid-template-columns: repeat(4, 350px); */
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  /* gap: 10px; */
+}
+.st-seeall {
+  /* background-color: green; */
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.st-seeall button {
+  background-color: rgb(60, 145, 230);
+  color: white;
+  border-radius: 10px;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}

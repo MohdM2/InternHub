@@ -1,0 +1,199 @@
+.cp-container {
+  background-color: #d9d9d9;
+  height: 170vh;
+  width: 100%;
+}
+.cp-black-bg {
+  height: 107px;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #08aeea;
+  background-image: linear-gradient(0deg, #08aeea 0%, #2af598 100%);
+}
+.cp-black-bg .cp-logo {
+  font-size: 50px;
+  cursor: pointer;
+  color: white;
+}
+.cp-black-bg .cp-logout {
+  background-color: white;
+  border: none;
+  padding: 10px 30px;
+  font-family: "Kanit";
+  border-radius: 10px;
+  cursor: pointer;
+}
+.cp-container .cp-white-bg {
+  /* background-color: purple; */
+  height: 200px;
+  width: 100%;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  position: relative;
+  /* padding: 20px 0; */
+}
+
+.cp-white-bg .cp-name-and-major {
+  /* background-color: greenyellow; */
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cp-white-bg .cp-name-and-major img {
+  margin-top: 20px;
+  border-radius: 50%;
+  width: 100px;
+}
+.cp-name-and-major .cp-name {
+  font-family: "Kanit";
+  font-weight: 400;
+}
+.cp-name-and-major .cp-major {
+  font-family: "Kanit";
+  font-weight: 400;
+  font-size: 20px;
+}
+.cp-white-bg .cp-editprofile {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.cp-white-bg .cp-editprofile .input {
+  border: none;
+  color: white;
+  background-color: #3c91e6;
+  font-family: "Kanit";
+  border-radius: 15px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.cp-white-bg .cp-editprofile .input:hover {
+  background-color: #0753a0;
+}
+.cp-container .cp-info-content {
+  display: flex;
+  justify-content: space-around;
+  height: 75vh;
+  font-family: "Kanit";
+}
+/* left info */
+
+.cp-info-content .cp-left-info {
+  /* background-color: red; */
+  width: 100%;
+  padding: 20px;
+}
+.cp-info-content .cp-left-info h1 {
+  font-family: "Kanit";
+  margin-bottom: 20px;
+}
+.cp-info-content .cp-left-info p {
+  resize: none;
+  font-family: "Kanit";
+  width: 80%;
+  height: 200px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: #f4f2ee;
+  padding: 10px;
+  outline: none;
+}
+hr {
+  background-color: #9d9d9d;
+  height: 1px;
+  margin: 10px 0;
+  width: 80%;
+}
+.cp-info-content .cp-left-info .cp-education {
+  /* background-color: aqua; */
+}
+.cp-info-content .cp-left-info .cp-education h1 {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.cp-info-content .cp-left-info .cp-education h3 {
+  margin-bottom: -5px;
+}
+
+.cp-info-content .cp-left-info .cp-education .cp-from,
+.cp-info-content .cp-left-info .cp-education .cp-to {
+  color: #838383;
+}
+.cp-info-content .cp-left-info .cp-education .cp-gpa {
+  font-size: 20px;
+}
+.cp-info-content .cp-left-info .cp-education .cp-gpa span {
+}
+
+/* \\\left info\\\ */
+
+/* right info */
+.cp-info-content .cp-right-info {
+  width: 100%;
+  padding: 20px;
+  /* background-color: yellowgreen; */
+}
+.cp-info-content .cp-right-info .cp-information {
+  font-family: "Kanit";
+  margin-bottom: 20px;
+}
+.cp-info-content .cp-right-info .cp-information h1 {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.cp-right-info .cp-information {
+}
+.cp-right-info .cp-information .cp-email {
+}
+.cp-right-info .cp-information .cp-email span {
+  display: block;
+  margin-bottom: 15px;
+  color: #4470c7;
+}
+.cp-right-info .cp-information .cp-location {
+  /* background-color: yellow; */
+}
+.cp-right-info .cp-information .cp-location span {
+  display: block;
+  margin-bottom: 15px;
+  color: #4470c7;
+}
+.cp-right-info .cp-information .cp-phone {
+  /* background-color: yellow; */
+}
+.cp-right-info .cp-information .cp-phone span {
+  display: block;
+  margin-bottom: 15px;
+  color: #4470c7;
+}
+.cp-right-info .cp-information .cp-website a {
+  /* background-color: yellow; */
+  display: block;
+  color: #4470c7;
+  margin-bottom: 15px;
+}
+.cp-right-info .cp-information .cp-employeesnumber span {
+  display: block;
+  margin-bottom: 15px;
+  color: #4470c7;
+}
+.cp-right-info .cp-internships {
+  /* background-color: yellow; */
+}
+.cp-right-info .cp-internships .cp-posts-container {
+  /* background-color: purple; */
+
+  padding: 20px;
+}
+
+/* \\\right info\\\ */

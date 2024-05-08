@@ -1,0 +1,22 @@
+.pb-container {
+  background-color: rgb(212, 212, 212);
+  width: 100%;
+  height: 13px;
+  border-radius: 10px;
+}
+.pb-progress-bar {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+.pb-progress-bar-fill {
+  background-color: #3c91e6;
+  height: 100%;
+  border-radius: 10px;
+  transition: 2s;
+}
+.pb-progress-label {
+  font-family: "Kanit";
+  color: #777;
+  transition: 2s;
+}

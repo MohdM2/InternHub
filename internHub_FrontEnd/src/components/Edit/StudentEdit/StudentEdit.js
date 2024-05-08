@@ -1,80 +1,58 @@
 import React, { useState } from "react";
-import "./StudentInfo.css";
+import "./StudentEdit.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DropDown from "../../DropDownList/DropDown";
-import { Phone } from "@mui/icons-material";
-import Progressbar from "../../Progressbar/Progressbar";
-export default function StudentInfo() {
+export default function StudentEdit() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [bio, setBio] = useState("");
+  const [firstName, setFirstName] = useState(location.state.firstName);
+  const [lastName, setLastName] = useState(location.state.lastName);
+  const [bio, setBio] = useState(location.state.bio);
   const [cvLink, setCvLink] = useState("");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(location.state.address);
 
-  const [phone, setPhone] = useState("");
-  const [major, setMajor] = useState("");
-  const [gpa, setGpa] = useState(null);
-  const [from, setFrom] = useState(null);
-  const [to, setTo] = useState(null);
-  const [universityName, setUniversityName] = useState("");
+  const [phone, setPhone] = useState(location.state.phone);
+  const [major, setMajor] = useState(location.state.major);
+  const [gpa, setGpa] = useState(location.state.gpa);
+  const [from, setFrom] = useState(location.state.from);
+  const [to, setTo] = useState(location.state.to);
+  const [universityName, setUniversityName] = useState(
+    location.state.universityName
+  );
   const [certificates, setCertificates] = useState([
     "Java Developer",
     "UI design",
   ]);
   const [skills, setSkills] = useState(["debugging", "OOP", "clean code"]);
-  function calculateProgress() {
-    const totalFields = 10; // Total number of input fields
-    let completedFields = 0;
 
-    if (firstName) completedFields++;
-
-    if (lastName) completedFields++;
-    if (bio) completedFields++;
-    if (cvLink) completedFields++;
-    if (address) completedFields++;
-    if (phone) completedFields++;
-    if (major) completedFields++;
-    if (gpa) completedFields++;
-    if (from) completedFields = completedFields + 0.5;
-    if (to) completedFields = completedFields + 0.5;
-    if (universityName) completedFields++;
-
-    return Math.floor((completedFields / totalFields) * 100);
-  }
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (major != "")
-      navigate("/studentdone", {
-        state: {
-          userType: location.state.userType,
-          username: location.state.username,
-          email: location.state.email,
+    navigate("/studentprofile", {
+      state: {
+        userType: location.state.userType,
+        username: location.state.username,
+        email: location.state.email,
 
-          firstName: firstName,
-          lastName: lastName,
-          bio: bio,
-          cvLink: cvLink,
-          phone: phone,
-          major: major,
-          gpa: gpa,
-          universityName: universityName,
+        firstName: firstName,
+        lastName: lastName,
+        bio: bio,
+        cvLink: cvLink,
+        phone: phone,
+        major: major,
+        gpa: gpa,
+        universityName: universityName,
 
-          certificates: certificates,
-          skills: skills,
+        certificates: certificates,
+        skills: skills,
 
-          address: address,
-          from: from,
-          to,
-        },
-      });
-    else {
-      alert("please enter your major");
-    }
+        address: address,
+        from: from,
+        to: to,
+      },
+    });
     // Handle form submission logic here
     // console.log("Form submitted:", {
     //   firstName,
@@ -101,7 +79,6 @@ export default function StudentInfo() {
           onClick={logout}
         />
       </div>
-      <Progressbar progress={calculateProgress()} />
       <div className="si-white-bg">
         <div className="si-name-and-major">
           <h1 className="si-name"> {location.state.username}</h1>
@@ -128,11 +105,11 @@ export default function StudentInfo() {
 
           <div className="si-dropdown-container">
             <label className="si-label">Certificates </label>
-            <DropDown className="si-list" title={"certificates"} />
+            <DropDown className="si-list" />
           </div>
           <div className="si-dropdown-container">
             <label className="si-label">Skills </label>
-            <DropDown className="si-list" title={"skills"} />
+            <DropDown className="si-list" />
           </div>
         </div>
 
@@ -146,7 +123,6 @@ export default function StudentInfo() {
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                required
               />
             </div>
             <div className="si-input-container">
@@ -156,7 +132,6 @@ export default function StudentInfo() {
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                required
               />
             </div>
 
@@ -176,7 +151,6 @@ export default function StudentInfo() {
                 value={universityName}
                 className="input"
                 onChange={(e) => setUniversityName(e.target.value)}
-                required
               />
             </div>
 
@@ -188,7 +162,6 @@ export default function StudentInfo() {
                   className="input-number"
                   value={from}
                   onChange={(e) => setFrom(e.target.value)}
-                  required
                 />
               </div>
 
@@ -199,7 +172,6 @@ export default function StudentInfo() {
                   className="input-number"
                   value={to}
                   onChange={(e) => setTo(e.target.value)}
-                  required
                 />
               </div>
             </div>
@@ -211,7 +183,6 @@ export default function StudentInfo() {
                 className="input-number"
                 value={gpa}
                 onChange={(e) => setGpa(e.target.value)}
-                required
               />
             </div>
 
@@ -235,7 +206,6 @@ export default function StudentInfo() {
                 value={address}
                 className="input"
                 onChange={(e) => setAddress(e.target.value)}
-                required
               />
             </div>
 
@@ -246,7 +216,6 @@ export default function StudentInfo() {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                required
               />
             </div>
             <button className="si-submit-btn" type="submit">

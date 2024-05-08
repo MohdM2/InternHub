@@ -1,0 +1,111 @@
+.spp-container {
+  background-color: #d9d9d9;
+
+  height: 130vh;
+}
+.spp-black-bg {
+  height: 107px;
+  width: 100%;
+
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #08aeea;
+  background-image: linear-gradient(0deg, #08aeea 0%, #2af598 100%);
+}
+.spp-black-bg .spp-logo {
+  font-size: 50px;
+  cursor: pointer;
+  color: white;
+}
+.spp-img-logout {
+  /* background-color: purple; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 150px;
+}
+.spp-accountCircle {
+  color: white;
+  font-size: 40px !important;
+  cursor: pointer;
+}
+.spp-logout {
+  background-color: white;
+  border: none;
+  padding: 10px 30px;
+  font-family: "Kanit";
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.spp-left-right-container {
+  /* background-color: green; */
+  height: 100vh;
+  display: flex;
+  /* background-color: gold; */
+}
+.left {
+  /* background-color: orange; */
+  width: 25%;
+  padding: 20px;
+  /* background-color: gold; */
+}
+.left h1 {
+  font-family: "Kanit";
+  margin-bottom: 30px;
+}
+.left .boxes {
+  /* background-color: palegreen; */
+  /* background-color: gold; */
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 10px;
+  border-radius: 6px;
+}
+.left .boxes .box {
+  display: flex;
+
+  margin-bottom: 30px;
+  /* background-color: palevioletred; */
+}
+.left .boxes .box h1 {
+  font-size: 20px;
+  width: 70%;
+  font-weight: 700;
+  font-family: "Kanit";
+}
+.left .boxes .box input {
+  height: 35px;
+  border-radius: 10px;
+  transform: translateY(5px);
+  font-family: "Kanit";
+}
+
+.left .boxes input[type="submit"] {
+  background-color: #3c91e6;
+  color: white;
+  margin: auto;
+  display: block;
+  font-family: "Kanit";
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.left .boxes input[type="submit"]:hover {
+  background-color: #0753a0;
+}
+.right {
+  /* background-color: orangered; */
+  width: 75%;
+  padding: 20px;
+}
+.right .spp-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  /* background-color: gold; */
+  height: 80vh;
+  padding: 40px;
+}
