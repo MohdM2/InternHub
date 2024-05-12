@@ -5,6 +5,9 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DropDown from "../../DropDownList/DropDown";
 import { Phone } from "@mui/icons-material";
 import Progressbar from "../../Progressbar/Progressbar";
+import StudentAddCertificate from "../../Overlays/StudentAddCertificate/StudentAddCertificate";
+import { v4 as uuidv4 } from "uuid";
+
 export default function StudentInfo() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,11 +24,32 @@ export default function StudentInfo() {
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
   const [universityName, setUniversityName] = useState("");
-  const [certificates, setCertificates] = useState([
-    "Java Developer",
-    "UI design",
-  ]);
+
   const [skills, setSkills] = useState(["debugging", "OOP", "clean code"]);
+
+  const [certificates, setCertificate] = useState([
+    {
+      id: uuidv4(),
+      certificateName: "",
+      certificateProvider: "",
+      from: "",
+      to: "",
+    },
+  ]);
+
+  // certification name provider from to
+  function handleAddCertificate(certName, provider, f, t) {
+    setCertificate([
+      ...certificates,
+      {
+        id: uuidv4(),
+        certificateName: certName,
+        certificateProvider: provider,
+        from: f,
+        to: t,
+      },
+    ]);
+  }
   function calculateProgress() {
     const totalFields = 10; // Total number of input fields
     let completedFields = 0;
@@ -63,8 +87,9 @@ export default function StudentInfo() {
           major: major,
           gpa: gpa,
           universityName: universityName,
-
           certificates: certificates,
+
+          // certificates: certificates,
           skills: skills,
 
           address: address,
@@ -128,7 +153,12 @@ export default function StudentInfo() {
 
           <div className="si-dropdown-container">
             <label className="si-label">Certificates </label>
-            <DropDown className="si-list" title={"certificates"} />
+            <StudentAddCertificate addCertificate={handleAddCertificate} />
+          </div>
+          <div className="si-certificates-list">
+            {certificates.map((certificate) => (
+              <div key={certificate.id}>{certificate.certificateName}</div>
+            ))}
           </div>
           <div className="si-dropdown-container">
             <label className="si-label">Skills </label>

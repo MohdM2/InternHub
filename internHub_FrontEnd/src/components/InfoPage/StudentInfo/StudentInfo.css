@@ -212,6 +212,7 @@ input::-webkit-inner-spin-button {
   cursor: pointer;
   color: white;
   transition: 0.3s;
+  border-radius: 6px;
 }
 .s-input-container .custom-file-upload:hover,
 .si-submit-btn:hover {
