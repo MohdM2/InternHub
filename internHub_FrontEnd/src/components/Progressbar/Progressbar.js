@@ -2,8 +2,9 @@ import "./Progressbar.css";
 import { useState } from "react";
 export default function Progressbar({ progress }) {
   function setColor() {
-    if (progress < 33) return "red";
-    else if (progress < 66) return "yellow";
+    if (progress < 25) return "red";
+    else if (progress < 50) return "orange";
+    else if (progress < 75) return "yellow";
     else return "green";
   }
 
@@ -15,7 +16,13 @@ export default function Progressbar({ progress }) {
           style={{ width: `${progress}%`, backgroundColor: setColor() }}
         ></div>
       </div>
-      <div className="pb-progress-label" style={{ marginLeft: `${progress}%` }}>
+      <div
+        className="pb-progress-label"
+        style={{
+          marginLeft: `${progress}%`,
+          display: progress !== 100 ? "block" : "none",
+        }}
+      >
         {progress}%
       </div>
     </div>

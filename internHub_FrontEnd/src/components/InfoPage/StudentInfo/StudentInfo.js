@@ -7,7 +7,7 @@ import { Phone } from "@mui/icons-material";
 import Progressbar from "../../Progressbar/Progressbar";
 import StudentAddCertificate from "../../Overlays/StudentAddCertificate/StudentAddCertificate";
 import { v4 as uuidv4 } from "uuid";
-
+import ClearIcon from "@mui/icons-material/Clear";
 export default function StudentInfo() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,15 +27,7 @@ export default function StudentInfo() {
 
   const [skills, setSkills] = useState(["debugging", "OOP", "clean code"]);
 
-  const [certificates, setCertificate] = useState([
-    {
-      id: uuidv4(),
-      certificateName: "",
-      certificateProvider: "",
-      from: "",
-      to: "",
-    },
-  ]);
+  const [certificates, setCertificate] = useState([]);
 
   // certification name provider from to
   function handleAddCertificate(certName, provider, f, t) {
@@ -115,6 +107,12 @@ export default function StudentInfo() {
   function logout() {
     navigate("/");
   }
+  function handleDeleteCertificate(id) {
+    let deletedCertificates = certificates.filter((certificate) => {
+      return certificate.id != id;
+    });
+    setCertificate([...deletedCertificates]);
+  }
   return (
     <div className="si-student-info-container">
       <div className="si-black-bg">
@@ -157,7 +155,22 @@ export default function StudentInfo() {
           </div>
           <div className="si-certificates-list">
             {certificates.map((certificate) => (
-              <div key={certificate.id}>{certificate.certificateName}</div>
+              <span className="si-certificate" key={certificate.id}>
+                {certificate.certificateName}{" "}
+                <span className="si-delete">
+                  <ClearIcon
+                    onClick={() => {
+                      handleDeleteCertificate(certificate.id);
+                    }}
+                    style={{
+                      color: "red",
+                      position: "absolute",
+                      top: "0px",
+                      cursor: "pointer",
+                    }}
+                  />{" "}
+                </span>
+              </span>
             ))}
           </div>
           <div className="si-dropdown-container">

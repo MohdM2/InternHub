@@ -79,3 +79,14 @@
   padding: 5px 5px;
   border: 1px solid #777;
 }
+.canp-skills {
+  margin-top: 20px;
+}
+.canp-skills span {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-right: 3px;
+  padding: 5px;
+  font-family: "Kanit";
+}

@@ -42,6 +42,7 @@ export default function StudentProfile() {
       },
     });
   }
+  let counter = 0;
   return (
     <div className="sp-container">
       <div className="sp-black-bg">
@@ -89,9 +90,20 @@ export default function StudentProfile() {
           </div>
           <hr />
           <div className="sp-certifications">
-            <h1>Certification</h1>
-            <div>certification1 : {certificates[0]}</div>
-            <div>certification2 : {certificates[1]}</div>
+            <h1>Certifications ({certificates.length}) </h1>
+            <div>
+              {
+                // certificates[0].certificateName
+
+                certificates.map((certificate) => (
+                  <div key={certificate.id}>
+                    Certification {++counter}
+                    {` : ${certificate.certificateName}`}
+                  </div>
+                ))
+              }
+            </div>
+            {/* <div>certification2 : {certificates[1]}</div> */}
             {/* <div>certification3 : {certificates[2]}</div> */}
           </div>
         </div>

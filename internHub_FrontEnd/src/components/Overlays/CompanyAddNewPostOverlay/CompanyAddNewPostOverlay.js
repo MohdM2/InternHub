@@ -12,6 +12,7 @@ import DropDownNewInternShip from "../../DropDownNewInternshipForm/DropDownNewIn
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PaidUnPaid from "../../PaidUnPaid/PaidUnPaid";
 import PlaceIcon from "@mui/icons-material/Place";
+import DropDown from "../../DropDownList/DropDown";
 const theme = createTheme({
   palette: {
     blue: {
@@ -125,6 +126,13 @@ function CompanyAddNewPostOverlay() {
                       technologies and presenting these for architectural
                       review.
                     </p>
+                    <h1 style={{ marginTop: "30px" }}>Skills</h1>
+                    <p className="canp-skills">
+                      <span> Debugging </span>
+                      <span> clean code </span>
+                      <span> OOP </span>
+                      <span> Excel </span>
+                    </p>
                   </div>
                   {/* Render the internship details here */}
                 </div>
@@ -173,6 +181,9 @@ function CompanyAddNewPostOverlay() {
                         rows={4}
                         required
                       />
+                    </div>
+                    <div className="canp-div">
+                      <DropDown title="skills" />
                     </div>
 
                     <div className="canp-div">
