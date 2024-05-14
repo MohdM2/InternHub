@@ -30,8 +30,9 @@ public class StudentController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateStudent(@RequestPart MultipartFile cvFile, @ModelAttribute @DateTimeFormat(pattern = "dd/MM/yyyy") Student student) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateStudent(@RequestPart(required = false) MultipartFile cvFile, @ModelAttribute @DateTimeFormat(pattern = "yyyy/MM/dd") Student student, @PathVariable int id) {
+        student.setId(id);
         Response response = studentService.updateStudent(student, cvFile);
         return ResponseEntity.ok(response);
     }

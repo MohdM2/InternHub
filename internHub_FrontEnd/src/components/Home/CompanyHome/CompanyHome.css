@@ -1,7 +1,7 @@
 .ch-container {
   background-color: #d9d9d9;
 
-  height: 150vh;
+  min-height: 150vh;
 }
 
 .ch-black-bg {

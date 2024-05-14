@@ -16,7 +16,11 @@ public class Company {
 
     private String name;
 
+    private String speciality;
+
     private String bio;
+
+    private String numberOfEmployees;
 
     private String address;
 
@@ -113,6 +117,23 @@ public class Company {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    public String getNumberOfEmployees() {
+        return numberOfEmployees;
+    }
+
+    public void setNumberOfEmployees(String numberOfEmployees) {
+        this.numberOfEmployees = numberOfEmployees;
     }
 
     @Override

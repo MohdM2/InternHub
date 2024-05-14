@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/companies")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CompanyController {
     private final CompanyService companyService;
 
@@ -27,8 +28,9 @@ public class CompanyController {
          Response response = companyService.saveCompany(request);
          return ResponseEntity.ok(response);
     }
-    @PutMapping
-    public ResponseEntity<?> updateCompany(@RequestPart MultipartFile logoFile, @ModelAttribute Company company) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCompany(@RequestPart(required = false) MultipartFile logoFile, @ModelAttribute Company company, @PathVariable int id) {
+        company.setId(id);
         Response response = companyService.updateCompany(company, logoFile);
         return ResponseEntity.ok(response);
     }

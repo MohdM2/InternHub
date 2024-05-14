@@ -3,8 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { SignUpFormContext } from "../../Contexts/SignUpFormContext";
-
+import { useUser } from "../../Contexts/UserContext";
 function LoginPage() {
   // const history = useHistory();
   const navigate = useNavigate();
@@ -15,8 +14,8 @@ function LoginPage() {
   const [userType, setUserType] = useState("student");
   const [errorMessage, setErrorMessage] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(false); // New state variable for password validation
-
-  const handleSubmit = (event) => {
+  const { updateUser } = useUser();
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (isSignUp) {
       if (!email || !username || !password || !userType) {
@@ -36,32 +35,63 @@ function LoginPage() {
       // Handle sign-up logic here
       if (userType === "student") {
         // Redirect to the student info page after signing up
-        navigate("/welcome", {
-          state: {
-            userType: userType,
-            username: username,
+        try {
+          await axios.post("http://localhost:8080/students", {
             email: email,
+            name: username,
             password: password,
-          },
-        });
+          });
+          const user = await axios.post("http://localhost:8080/auth/login", {
+            email,
+            password,
+          });
+          updateUser(user.data);
+          navigate("/welcome", {
+            replace: true,
+          });
+        } catch (e) {
+          setErrorMessage(e.response.data.error);
+          return;
+        }
       } else if (userType === "company") {
         // Redirect to the company info page after signing up
-        navigate("/welcome", {
-          state: {
-            userType: userType,
-            username: username,
+        try {
+          await axios.post("http://localhost:8080/companies", {
             email: email,
+            name: username,
             password: password,
-          },
-        });
+          });
+          const user = await axios.post("http://localhost:8080/auth/login", {
+            email,
+            password,
+          });
+          updateUser(user.data);
+          navigate("/welcome", {
+            replace: true,
+          });
+        } catch (e) {
+          setErrorMessage(e.response.data.error);
+          return;
+        }
       }
     } else {
-      if (!username || !password) {
+      if (!email || !password) {
         setErrorMessage("Please enter both username and password");
         return;
       }
-      // Handle login logic here
-      console.log("Login");
+      try {
+        const user = await axios.post("http://localhost:8080/auth/login", {
+          email,
+          password,
+        });
+        updateUser(user.data);
+        navigate("/welcome", {
+          replace: true,
+        });
+      } catch (e) {
+        setErrorMessage(e.response.data.error);
+        return;
+      }
     }
     // Reset error message if no errors
     setErrorMessage("");
@@ -84,10 +114,6 @@ function LoginPage() {
     const isNumberValid = numberRegex.test(newPassword);
     const isSymbolValid = symbolRegex.test(newPassword);
 
-    console.log("Uppercase valid:", isUppercaseValid);
-    console.log("Number valid:", isNumberValid);
-    console.log("symbol valid:", isSymbolValid);
-
     setIsPasswordValid(isUppercaseValid && isNumberValid && isSymbolValid);
   };
   return (
@@ -109,27 +135,29 @@ function LoginPage() {
           </div>
         )}
         <form onSubmit={handleSubmit}>
-          <div className="input-container">
-            <input
-              className={isSignUp ? "" : "input-container-margin"}
-              type="text"
-              id="username"
-              value={username}
-              placeholder={`${userType} name`}
-              onChange={(event) => setUsername(event.target.value)}
-            />
-          </div>
           {isSignUp && (
             <div className="input-container">
               <input
-                type="email"
-                id="email"
-                value={email}
-                placeholder="Email"
-                onChange={(event) => setEmail(event.target.value)}
+                className={isSignUp ? "" : "input-container-margin"}
+                type="text"
+                id="username"
+                value={username}
+                placeholder={`${userType} name`}
+                onChange={(event) => setUsername(event.target.value)}
               />
             </div>
           )}
+
+          <div className="input-container">
+            <input
+              type="email"
+              id="email"
+              value={email}
+              placeholder="Email"
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+
           <div className="input-container">
             <input
               className={isSignUp ? "" : "input-container-margin"}

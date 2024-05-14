@@ -16,12 +16,14 @@ D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\entity\Skill.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\service\CompanyService.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\request\LoginRequest.java
+D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\config\JacksonConfig.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\dao\CompanyDAO.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\service\JobService.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\aspect\ApiResponseAspect.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\service\ApplicationService.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\dao\UserDAO.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\rest\StudentController.java
+D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\config\CorsConfig.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\ApiApplication.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\dao\ApplicationDAO.java
 D:\Graduation Project\InternHub\internHub_server\api\src\main\java\com\internhub\api\entity\JobCategory.java

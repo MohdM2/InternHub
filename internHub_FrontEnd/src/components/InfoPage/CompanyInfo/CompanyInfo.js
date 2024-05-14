@@ -1,25 +1,32 @@
 import React, { useState } from "react";
 import "./CompanyInfo.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { Phone } from "@mui/icons-material";
 import Progressbar from "../../Progressbar/Progressbar";
+import { useUser } from "../../../Contexts/UserContext";
+import axios from "axios";
 function CompanyInfo() {
-  const location = useLocation();
   let navigate = useNavigate();
-  const [companyName, setCompanyName] = useState(location.state.username);
-  const [userType, setUserType] = useState(location.state.userType);
-  const [email, setEmail] = useState(location.state.email);
-  const [password, setPassword] = useState(location.state.password);
-  const [bio, setBio] = useState("");
-  const [numEmployees, setNumEmployees] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [logo, setLogo] = useState("");
-  const [phone, setPhone] = useState("");
-  const [companySpeciality, setCompanySpeciality] = useState("");
-
+  const { user, updateUser } = useUser();
+  const [companyName, setCompanyName] = useState(user.data.name || "");
+  const [email, setEmail] = useState(user.data.email || "");
+  const [bio, setBio] = useState(user.data.bio || "");
+  const [numEmployees, setNumEmployees] = useState(
+    user.data.numberOfEmployees || ""
+  );
+  const [address, setAddress] = useState(user.data.address || "");
+  const [city, setCity] = useState(user.data.city || "");
+  const [country, setCountry] = useState(user.data.country || "");
+  const [logo, setLogo] = useState({
+    file: null,
+    link: user.data.logo
+      ? `http://localhost:8080/files/${user.data.logo}`
+      : null,
+  });
+  const [phone, setPhone] = useState(user.data.phone || "");
+  const [companySpeciality, setCompanySpeciality] = useState(
+    user.data.speciality || ""
+  );
   function calculateProgress() {
     const totalFields = 10; // Total number of input fields
     let completedFields = 0;
@@ -38,32 +45,40 @@ function CompanyInfo() {
 
     return Math.floor((completedFields / totalFields) * 100);
   }
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle form submission logic here
-    // console.log(companyName);
-    // console.log(password);
-    // console.log(userType);
-    // console.log(email);
-
-    if (companySpeciality != "")
-      navigate("/companydone", {
-        state: {
-          companyName: companyName,
-          userType: userType,
-          email: email,
-          Password: password,
-          bio: bio,
-          numEmployees: numEmployees,
-          address: address,
-          city: city,
-          country: country,
-          logo: logo,
-          phone: phone,
-          companySpeciality: companySpeciality,
-        },
-      });
-    else {
+    if (companySpeciality != "") {
+      try {
+        const data = new FormData();
+        data.append("name", companyName);
+        data.append("country", country);
+        data.append("city", city);
+        data.append("email", email);
+        data.append("address", address);
+        data.append("phone", phone);
+        data.append("bio", bio);
+        data.append("speciality", companySpeciality);
+        data.append("numberOfEmployees", numEmployees);
+        console.log(user);
+        console.log(`http://localhost:8080/companies/${user.data.id}`);
+        if (logo.file) data.append("logoFile", logo.file);
+        const response = await axios.put(
+          `http://localhost:8080/companies/${user.data.id}`,
+          data,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data", // Set the content type to form-data
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+        updateUser({ ...user, data: response.data.data });
+      } catch (e) {
+        alert(e.response.data.error);
+      }
+      navigate("/companydone", {});
+    } else {
       alert("please enter a company speciality");
     }
   };
@@ -73,10 +88,10 @@ function CompanyInfo() {
   }
   // Function to handle logo file selection
   const handleLogoChange = (event) => {
-    // const file = event.target.files[0];
-    // setLogo(file);
-    // console.log(file.name);
-    setLogo(event.target.value);
+    const file = event.target.files[0];
+    if (file) {
+      setLogo({ file, link: URL.createObjectURL(file) });
+    }
   };
 
   return (
@@ -94,9 +109,12 @@ function CompanyInfo() {
       <div className="c-white-bg">
         <div className="c-name-and-major">
           <div className="c-photo-container">
-            <label for="file-upload">
-              {" "}
-              <AddCircleOutlineIcon className="c-add" />
+            <label htmlFor="file-upload">
+              {logo.link ? (
+                <img src={logo.link} className="logo" />
+              ) : (
+                <AddCircleOutlineIcon className="c-add" />
+              )}
             </label>
             <input
               type="file"
@@ -106,7 +124,7 @@ function CompanyInfo() {
               onChange={handleLogoChange} // Call handleLogoChange function on file selection
             />
           </div>
-          <h1 className="c-name"> {location.state.username}</h1>
+          <h1 className="c-name"> {user.data.name}</h1>
           <input
             value={companySpeciality}
             onChange={(e) => setCompanySpeciality(e.target.value)}
@@ -148,7 +166,7 @@ function CompanyInfo() {
               <label className="c-label">Number of Employees:</label> <br />
               <input
                 className="input-number"
-                type="number"
+                type="text"
                 value={numEmployees}
                 onChange={(e) => setNumEmployees(e.target.value)}
                 required

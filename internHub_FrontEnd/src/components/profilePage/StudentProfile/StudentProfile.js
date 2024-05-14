@@ -2,45 +2,37 @@ import "./StudentProfile.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Email } from "@mui/icons-material";
+import { useUser } from "../../../Contexts/UserContext";
 export default function StudentProfile() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [firstName, setFirstName] = useState(location.state.firstName);
-  const [lastName, setLastName] = useState(location.state.lastName);
-  const [bio, setBio] = useState(location.state.bio);
-  const [cvLink, setCvLink] = useState(location.state.cvLink);
-  const [address, setAddress] = useState(location.state.address);
-  const [email, setEmail] = useState(location.state.email);
-
-  const [phone, setPhone] = useState(location.state.phone);
-  const [major, setMajor] = useState(location.state.major);
-  const [gpa, setGpa] = useState(location.state.gpa);
-  const [from, setFrom] = useState(location.state.from);
-  const [to, seTo] = useState(location.state.to);
-  const [universityName, setUniversityName] = useState(
-    location.state.universityName
+  const { user, updateUser } = useUser();
+  const [firstName, setFirstName] = useState(user.data.firstName);
+  const [lastName, setLastName] = useState(user.data.lastName);
+  const [bio, setBio] = useState(user.data.bio);
+  const [cvLink, setCvLink] = useState(
+    `http://localhost:8080/files/${user.data.cv}`
   );
-  const [certificates, setCertificates] = useState(location.state.certificates);
-  const [skills, setSkills] = useState(location.state.skills);
+  const [email, setEmail] = useState(user.data.email);
+
+  const [phone, setPhone] = useState(user.data.phone);
+  const [major, setMajor] = useState(user.data.major);
+  const [gpa, setGpa] = useState(user.data.gpa);
+  const [from, setFrom] = useState(user.data.educationStartDate);
+  const [to, seTo] = useState(user.data.educationEndDate);
+  const [universityName, setUniversityName] = useState(user.data.university);
+  const [certificates, setCertificates] = useState(user.data.courses);
+  const [skills, setSkills] = useState(user.data.skills);
 
   function logout() {
     navigate("/");
   }
 
   function editProfile() {
-    navigate("/studentedit", {
-      state: {
-        ...location.state,
-      },
-    });
+    navigate("/studentedit", {});
   }
   function goToHomePage() {
-    navigate("/studenthome", {
-      state: {
-        ...location.state,
-      },
-    });
+    navigate("/studenthome", {});
   }
   let counter = 0;
   return (
@@ -96,15 +88,16 @@ export default function StudentProfile() {
                 // certificates[0].certificateName
 
                 certificates.map((certificate) => (
-                  <div key={certificate.id}>
-                    Certification {++counter}
-                    {` : ${certificate.certificateName}`}
+                  <div className="sp-education" key={certificate.id}>
+                    <h3>{`${certificate.name} - ${certificate.provider}`}</h3>
+                    <span className="sp-from">
+                      {certificate.startDate}
+                    </span>{" "}
+                    <span className="sp-to"> - {certificate.endDate}</span>{" "}
                   </div>
                 ))
               }
             </div>
-            {/* <div>certification2 : {certificates[1]}</div> */}
-            {/* <div>certification3 : {certificates[2]}</div> */}
           </div>
         </div>
         <div className="sp-right-info">
@@ -113,37 +106,27 @@ export default function StudentProfile() {
             <div className="sp-email">
               Email address<span>{email}</span>{" "}
             </div>
-            <div className="sp-location">
-              Location <span>{address}</span>{" "}
-            </div>
             <div className="sp-phone">
               Phone number<span>{phone}</span>{" "}
             </div>
             <div className="sp-resume">
-              Resume<li>{cvLink}</li>{" "}
+              Resume
+              <span>
+                <a href={cvLink}>Download Resume</a>
+              </span>
             </div>
           </div>
 
           <hr />
           <div className="sp-skills">
             <h1>Skills</h1>
-            <div className="first-row">
-              <span>{skills[0]}</span>
-              <span>{skills[1]}</span>
-              <span>{skills[2]}</span>
-            </div>
-            <div className="second-row">
-              <span>Algorithm</span>
-              <span>OOP</span>
-              <span>Debugging</span>
+            <div className="skills">
+              {skills.map((skill) => (
+                <span>{skill.name}</span>
+              ))}
             </div>
           </div>
           <hr />
-          <div className="sp-languages">
-            <h1>Languages</h1>
-            <span>Arabic</span>
-            <span>English</span>
-          </div>
         </div>
       </div>
     </div>

@@ -49,6 +49,12 @@ input::-webkit-inner-spin-button {
 .si-student-info-container .si-name-and-major .si-name {
   font-family: "Kanit";
   font-size: 30px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+}
+.si-student-info-container .si-name-and-major .si-major {
+  font-family: "Kanit";
+  font-size: 20px;
   font-weight: 400;
   letter-spacing: 1.2px;
 }
@@ -123,7 +129,7 @@ input::-webkit-inner-spin-button {
   /* background-color: green; */
   margin-top: 15px;
   display: grid;
-  grid-template-columns: repeat(3, 120px);
+  grid-template-columns: repeat(3, minmax(120px, auto));
   gap: 20px;
 }
 .si-certificate {
@@ -189,8 +195,7 @@ input::-webkit-inner-spin-button {
 }
 .form .si-from-to .si-from,
 .form .si-from-to .si-to {
-  /* background-color: #3c91e6; */
-  width: 120px;
+  width: 150px;
   margin-right: 10px;
 }
 .form .si-from-to .si-from label,
@@ -200,7 +205,7 @@ input::-webkit-inner-spin-button {
 .form .si-from-to .si-from input,
 .form .si-from-to .si-to input {
   font-family: "Kanit";
-  width: 50px;
+  width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -234,4 +239,7 @@ input::-webkit-inner-spin-button {
 .s-input-container .custom-file-upload:hover,
 .si-submit-btn:hover {
   background-color: #0753a0;
+}
+.s-input-container a {
+  margin-left: 20px;
 }

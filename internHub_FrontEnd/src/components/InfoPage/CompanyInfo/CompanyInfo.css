@@ -5,8 +5,8 @@ input::-webkit-inner-spin-button {
 }
 .c-company-info-container {
   background-color: #f4f2ee;
-  height: 120vh;
   width: 100%;
+  min-height: 100vh;
 }
 .c-company-info-container .c-black-bg {
   height: 107px;
@@ -58,6 +58,9 @@ input::-webkit-inner-spin-button {
   font-size: 90px;
   cursor: pointer;
   font-weight: 100;
+}
+.logo {
+  max-width: 250px;
 }
 .c-company-info-container .c-name-and-major .c-name {
   font-family: "Kanit";

@@ -2,44 +2,32 @@ import { useState } from "react";
 import "./CompanyProfile.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import CompanyPost from "../../Posts/CompanyPost/CompanyPost";
+import { useUser } from "../../../Contexts/UserContext";
 export default function CompanyProfile() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [companyName, setCompanyName] = useState(location.state.companyName);
-  const [userType, setUserType] = useState(location.state.userType);
-  const [email, setEmail] = useState(location.state.email);
-  const [password, setPassword] = useState(location.state.password);
-  const [bio, setBio] = useState(location.state.bio);
-  const [numEmployees, setNumEmployees] = useState(location.state.numEmployees);
-  const [address, setAddress] = useState(location.state.address);
-  const [city, setCity] = useState(location.state.city);
-  const [country, setCountry] = useState(location.state.country);
-  const [logo, setLogo] = useState("");
-  const [phone, setPhone] = useState(location.state.phone);
+  const { user, updateUser } = useUser();
+  const [companyName, setCompanyName] = useState(user.data.name);
+  const [userType, setUserType] = useState(user.type);
+  const [email, setEmail] = useState(user.data.email);
+  const [bio, setBio] = useState(user.data.bio);
+  const [numEmployees, setNumEmployees] = useState(user.data.numberOfEmployees);
+  const [address, setAddress] = useState(user.data.address);
+  const [city, setCity] = useState(user.data.city);
+  const [country, setCountry] = useState(user.data.country);
+  const [logo, setLogo] = useState(
+    `http://localhost:8080/files/${user.data.logo}`
+  );
+  const [phone, setPhone] = useState(user.data.phone);
   const [companySpeciality, setCompanySpeciality] = useState(
-    location.state.companySpeciality
+    user.data.speciality
   );
 
   function logout() {
     navigate("/");
   }
   function editProfile() {
-    navigate("/companyedit", {
-      state: {
-        companyName: companyName,
-        userType: userType,
-        email: email,
-        Password: password,
-        bio: bio,
-        numEmployees: numEmployees,
-        address: address,
-        city: city,
-        country: country,
-        logo: logo,
-        phone: phone,
-        companySpeciality: companySpeciality,
-      },
-    });
+    navigate("/companyedit", {});
   }
   function goToHomePage() {
     navigate("/companyhome", {
@@ -47,7 +35,6 @@ export default function CompanyProfile() {
         companyName: companyName,
         userType: userType,
         email: email,
-        Password: password,
         bio: bio,
         numEmployees: numEmployees,
         address: address,
@@ -74,10 +61,14 @@ export default function CompanyProfile() {
       </div>
       <div className="cp-white-bg">
         <div className="cp-name-and-major">
-          <img
-            src={`https://placehold.co/50x50/779900/FFF?text=${companyName}`}
-            alt="pink"
-          />
+          {logo ? (
+            <img src={logo} alt="pink" />
+          ) : (
+            <img
+              src={`https://placehold.co/50x50/779900/FFF?text=${companyName}`}
+              alt="pink"
+            />
+          )}
           <h1 className="cp-name">{companyName}</h1>
           <h2 className="cp-major">{companySpeciality}</h2>
         </div>
@@ -109,13 +100,7 @@ export default function CompanyProfile() {
             <div className="cp-phone">
               Phone number<span>{phone}</span>{" "}
             </div>
-            <div className="cp-website">
-              website
-              <a
-                href={`https://www.${companyName}.com`}
-                target="_blank"
-              >{`www.${companyName}.com`}</a>{" "}
-            </div>
+
             <div className="cp-employeesnumber">
               Number of Employees <span>{numEmployees}</span>{" "}
             </div>

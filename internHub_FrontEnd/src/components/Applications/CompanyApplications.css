@@ -1,7 +1,7 @@
 .ca-container {
   background-color: #f4f2ee;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: space-between;
   padding: 30px;

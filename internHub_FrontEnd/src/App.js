@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import LoginPage from "./components/Login/Login";
 import StudentInfo from "./components/InfoPage/StudentInfo/StudentInfo";
 import CompanyInfo from "./components/InfoPage/CompanyInfo/CompanyInfo";
@@ -9,12 +9,18 @@ import CompanyDone from "./components/DoneInfo/CompanyDoneInfo/CompanyDone";
 import StudentDone from "./components/DoneInfo/StudentDoneInfo/StudentDone";
 import CompanyHome from "./components/Home/CompanyHome/CompanyHome";
 import StudentHome from "./components/Home/StudentHome/StudentHome";
-import CompanyEdit from "./components/Edit/CompanyEdit/CompanyEdit";
 import CompanyApplications from "./components/Applications/CompanyApplications";
-import StudentEdit from "./components/Edit/StudentEdit/StudentEdit";
 import StudentPostsPreview from "./components/StudentPostsPreview/StudentPostsPreview";
 import "./App.css";
+import { UserProvider, useUser } from "./Contexts/UserContext";
+import { useEffect } from "react";
 function App() {
+  const { user, updateUser } = useUser();
+  const navigate = useNavigate();
+  // useEffect(() => {
+  //   console.log("effect");
+  //   if (user == null) updateUser(JSON.parse(localStorage.getItem("user")));
+  // });
   return (
     <div className="app">
       {/* <Routes>
@@ -31,8 +37,8 @@ function App() {
         <Route exact path="/studentdone" element={<StudentDone />} />
         <Route exact path="/companyhome" element={<CompanyHome />} />
         <Route exact path="/studenthome" element={<StudentHome />} />
-        <Route exact path="/companyedit" element={<CompanyEdit />} />
-        <Route exact path="/studentedit" element={<StudentEdit />} />
+        <Route exact path="/companyedit" element={<CompanyInfo />} />
+        <Route exact path="/studentedit" element={<StudentInfo />} />
         <Route
           exact
           path="/studentpostspreview"

@@ -31,6 +31,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .requestMatchers(HttpMethod.POST, "/auth/login", "/companies", "/students")
                 .permitAll()
+                .requestMatchers(HttpMethod.GET, "/files/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

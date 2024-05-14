@@ -57,15 +57,22 @@ public class StudentService {
 
     public Response updateStudent(Student student, MultipartFile cv) {
         Student oldStudent = dao.getStudentById(student.getId());
-        for (Course course : oldStudent.getCourses())
-            courseDAO.deleteCourse(course.getId());
-        for (Course course : student.getCourses()) {
-            course.setStudentId(student.getId());
-            courseDAO.saveCourse(course);
+        if (oldStudent.getCourses() != null)
+            for (Course course : oldStudent.getCourses())
+                courseDAO.deleteCourse(course.getId());
+        if (student.getCourses() != null)
+            for (Course course : student.getCourses()) {
+                course.setStudentId(student.getId());
+                courseDAO.saveCourse(course);
+            }
+        String fileName = null;
+        if (cv != null && !cv.isEmpty()) {
+            fileName = util.saveFile(cv, baseDirectory);
+            if (fileName == null)
+                throw new RuntimeException("could not upload file");
+        } else {
+            fileName = oldStudent.getCv();
         }
-        String fileName = util.saveFile(cv, baseDirectory);
-        if (fileName == null)
-            throw new RuntimeException("could not upload file");
         student.setCv(fileName);
         student.setUserId(oldStudent.getUserId());
         dao.updateStudent(student);

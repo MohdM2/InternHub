@@ -3,28 +3,16 @@ import { useLocation } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useNavigate } from "react-router-dom";
 import { Password } from "@mui/icons-material";
+import { useUser } from "../../Contexts/UserContext";
 export default function Welcome() {
   const navigate = useNavigate();
+  const { user, updateUser } = useUser();
   let location = useLocation();
   function goToInfoPage() {
-    if (location.state.userType == "student") {
-      navigate("/studentinfo", {
-        state: {
-          userType: location.state.userType,
-          username: location.state.username,
-          email: location.state.email,
-          Password: location.state.Password,
-        },
-      });
-    } else if (location.state.userType == "company") {
-      navigate("/companyinfo", {
-        state: {
-          userType: location.state.userType,
-          username: location.state.username,
-          email: location.state.email,
-          Password: location.state.Password,
-        },
-      });
+    if (user.type == "student") {
+      navigate("/studentinfo");
+    } else if (user.type == "company") {
+      navigate("/companyinfo");
     }
   }
   return (
@@ -33,9 +21,15 @@ export default function Welcome() {
         <CheckCircleIcon className="w-check-icon" />
       </div>
       <div className="w-text-container">
-        <h1 className="w-header">welcome {location.state.username} !</h1>
+        <h1 className="w-header">
+          welcome{" "}
+          {user.type === "company"
+            ? user.data.name
+            : user.data.firstName + " " + user.data.lastName}{" "}
+          !
+        </h1>
         <p className="w-paragraph">
-          {location.state.userType == "student"
+          {user.type == "student"
             ? "You're all set to embark on your journey with us. Let's finalize your  registration details on the info page to get started."
             : "You're all set to connect with talented individuals through our platform. Let's match these potential interns with your company. Head over to the info page to finalize the registration process and start exploring internship opportunities."}
         </p>

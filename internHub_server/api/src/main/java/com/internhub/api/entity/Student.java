@@ -2,6 +2,7 @@ package com.internhub.api.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -32,6 +33,24 @@ public class Student {
 
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "university")
+    private String university;
+
+    @Column(name = "major")
+    private String major;
+
+
+    @Column(name = "education_start")
+    private Date educationStartDate;
+
+
+    @Column(name = "education_end")
+    private Date educationEndDate;
+
+    @Column(name = "gpa")
+    private double gpa;
+
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id")
@@ -126,6 +145,46 @@ public class Student {
 
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
+    }
+
+    public String getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(String university) {
+        this.university = university;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public Date getEducationStartDate() {
+        return educationStartDate;
+    }
+
+    public void setEducationStartDate(Date educationStartDate) {
+        this.educationStartDate = educationStartDate;
+    }
+
+    public Date getEducationEndDate() {
+        return educationEndDate;
+    }
+
+    public void setEducationEndDate(Date educationEndDate) {
+        this.educationEndDate = educationEndDate;
+    }
+
+    public double getGpa() {
+        return gpa;
+    }
+
+    public void setGpa(double gpa) {
+        this.gpa = gpa;
     }
 
     @Override

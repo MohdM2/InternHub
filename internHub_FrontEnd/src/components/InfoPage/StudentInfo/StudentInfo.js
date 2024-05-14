@@ -1,57 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./StudentInfo.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DropDown from "../../DropDownList/DropDown";
-import { Phone } from "@mui/icons-material";
 import Progressbar from "../../Progressbar/Progressbar";
 import StudentAddCertificate from "../../Overlays/StudentAddCertificate/StudentAddCertificate";
 import { v4 as uuidv4 } from "uuid";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useUser } from "../../../Contexts/UserContext";
+import axios from "axios";
 export default function StudentInfo() {
-  const location = useLocation();
   const navigate = useNavigate();
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [bio, setBio] = useState("");
-  const [cvLink, setCvLink] = useState("");
-  const [address, setAddress] = useState("");
-
-  const [phone, setPhone] = useState("");
-  const [major, setMajor] = useState("");
-  const [gpa, setGpa] = useState(null);
-  const [from, setFrom] = useState(null);
-  const [to, setTo] = useState(null);
-  const [universityName, setUniversityName] = useState("");
-
-  const [skills, setSkills] = useState(["debugging", "OOP", "clean code"]);
-
-  const [certificates, setCertificate] = useState([]);
-
+  const { user, updateUser } = useUser();
+  const [firstName, setFirstName] = useState(user.data.firstName || "");
+  const [lastName, setLastName] = useState(user.data.lastName || "");
+  const [bio, setBio] = useState(user.data.bio || "");
+  const [cv, setCv] = useState({
+    file: null,
+    link: user.data.cv ? `http://localhost:8080/files/${user.data.cv}` : null,
+  });
+  const [email, setEmail] = useState(user.data.email || "");
+  const [phone, setPhone] = useState(user.data.phone || "");
+  const [major, setMajor] = useState(user.data.major || "");
+  const [gpa, setGpa] = useState(user.data.gpa || "");
+  const [from, setFrom] = useState(user.data.educationStartDate || "");
+  const [to, setTo] = useState(user.data.educationEndDate || "");
+  const [universityName, setUniversityName] = useState(
+    user.data.university || ""
+  );
+  const [skills, setSkills] = useState(user.data.skills || []);
+  const [avilableSkills, setAvailableSKiils] = useState([]);
+  const [certificates, setCertificate] = useState(user.data.courses || []);
+  useEffect(() => {
+    async function fetchSkills() {
+      try {
+        const response = await axios.get("http://localhost:8080/skills", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        setAvailableSKiils(response.data.data);
+      } catch (error) {
+        console.log("Error fetching skills:", error);
+      }
+    }
+    fetchSkills();
+  }, []);
   // certification name provider from to
   function handleAddCertificate(certName, provider, f, t) {
     setCertificate([
       ...certificates,
       {
         id: uuidv4(),
-        certificateName: certName,
-        certificateProvider: provider,
-        from: f,
-        to: t,
+        name: certName,
+        provider: provider,
+        startDate: f,
+        endDate: t,
       },
     ]);
   }
   function calculateProgress() {
-    const totalFields = 10; // Total number of input fields
+    const totalFields = 9; // Total number of input fields
     let completedFields = 0;
 
     if (firstName) completedFields++;
 
     if (lastName) completedFields++;
     if (bio) completedFields++;
-    if (cvLink) completedFields++;
-    if (address) completedFields++;
+    if (cv) completedFields++;
     if (phone) completedFields++;
     if (major) completedFields++;
     if (gpa) completedFields++;
@@ -61,47 +76,53 @@ export default function StudentInfo() {
 
     return Math.floor((completedFields / totalFields) * 100);
   }
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (major != "")
-      navigate("/studentdone", {
-        state: {
-          userType: location.state.userType,
-          username: location.state.username,
-          email: location.state.email,
-
-          firstName: firstName,
-          lastName: lastName,
-          bio: bio,
-          cvLink: cvLink,
-          phone: phone,
-          major: major,
-          gpa: gpa,
-          universityName: universityName,
-          certificates: certificates,
-
-          // certificates: certificates,
-          skills: skills,
-
-          address: address,
-          from: from,
-          to,
-        },
-      });
-    else {
-      alert("please enter your major");
+    try {
+      const data = new FormData();
+      data.append("firstName", firstName);
+      data.append("lastName", lastName);
+      data.append("email", email);
+      data.append("phone", phone);
+      data.append("university", universityName);
+      data.append("major", major);
+      data.append("educationStartDate", from.replaceAll("-", "/"));
+      data.append("educationEndDate", to.replaceAll("-", "/"));
+      data.append("gpa", gpa);
+      if (cv.file) data.append("cvFile", cv.file);
+      data.append("bio", bio);
+      for (let i = 0; i < certificates.length; i++) {
+        data.append(`courses[${i}].name`, certificates[i].name);
+        data.append(`courses[${i}].provider`, certificates[i].provider);
+        data.append(
+          `courses[${i}].startDate`,
+          certificates[i].startDate.replaceAll("-", "/")
+        );
+        data.append(
+          `courses[${i}].endDate`,
+          certificates[i].endDate.replaceAll("-", "/")
+        );
+      }
+      for (let i = 0; i < skills.length; i++) {
+        data.append(`skills[${i}].id`, skills[i].id);
+        data.append(`skills[${i}].name`, skills[i].name);
+      }
+      const response = await axios.put(
+        `http://localhost:8080/students/${user.data.id}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set the content type to form-data
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      console.log(response.data.data);
+      updateUser({ ...user, data: response.data.data });
+      navigate("/studentdone", {});
+    } catch (e) {
+      alert(e.response.data.error);
     }
-    // Handle form submission logic here
-    // console.log("Form submitted:", {
-    //   firstName,
-    //   lastName,
-    //   bio,
-    //   cvLink,
-
-    //   phone,
-    //   major,
-    // });
   };
 
   function logout() {
@@ -112,6 +133,12 @@ export default function StudentInfo() {
       return certificate.id != id;
     });
     setCertificate([...deletedCertificates]);
+  }
+  function handleCvChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      setCv({ file, link: URL.createObjectURL(file) });
+    }
   }
   return (
     <div className="si-student-info-container">
@@ -127,14 +154,8 @@ export default function StudentInfo() {
       <Progressbar progress={calculateProgress()} />
       <div className="si-white-bg">
         <div className="si-name-and-major">
-          <h1 className="si-name"> {location.state.username}</h1>
-          <input
-            value={major}
-            onChange={(e) => setMajor(e.target.value)}
-            className="input"
-            type="text"
-            placeholder="Student Major"
-          />
+          <h1 className="si-name">{firstName + " " + lastName}</h1>
+          <h2 className="si-major">{major}</h2>
         </div>
       </div>
       <hr className="splitter" />
@@ -156,7 +177,7 @@ export default function StudentInfo() {
           <div className="si-certificates-list">
             {certificates.map((certificate) => (
               <span className="si-certificate" key={certificate.id}>
-                {certificate.certificateName}{" "}
+                {certificate.name}
                 <span className="si-delete">
                   <ClearIcon
                     onClick={() => {
@@ -175,7 +196,13 @@ export default function StudentInfo() {
           </div>
           <div className="si-dropdown-container">
             <label className="si-label">Skills </label>
-            <DropDown className="si-list" title={"skills"} />
+            <DropDown
+              className="si-list"
+              title={"skills"}
+              multiple={true}
+              data={avilableSkills}
+              change={setSkills}
+            />
           </div>
         </div>
 
@@ -202,82 +229,13 @@ export default function StudentInfo() {
                 required
               />
             </div>
-
-            {/* <div className="si-input-container">
-              <label className="si-label">Last Name</label> <br />
-              <input
-                className="input-number"
-                type="number"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div> */}
             <div className="si-input-container">
-              <label className="si-label">University Name:</label>
+              <label className="si-label">Email:</label>
               <input
-                type="text"
-                value={universityName}
                 className="input"
-                onChange={(e) => setUniversityName(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="si-from-to">
-              <div className="si-from">
-                <label className="">From </label>
-                <input
-                  type="number"
-                  className="input-number"
-                  value={from}
-                  onChange={(e) => setFrom(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="si-to">
-                <label className="">To </label>
-                <input
-                  type="number"
-                  className="input-number"
-                  value={to}
-                  onChange={(e) => setTo(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="si-input-container">
-              <label className="si-label">Gpa </label>
-              <input
-                type="number"
-                className="input-number"
-                value={gpa}
-                onChange={(e) => setGpa(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="s-input-container">
-              <label className="custom-file-upload" for="file-upload">
-                CV Link:
-              </label>
-              <input
-                type="file"
-                value={cvLink}
-                className="input-file"
-                id="file-upload"
-                onChange={(e) => setCvLink(e.target.value)}
-              />
-            </div>
-
-            <div className="si-input-container">
-              <label className="si-label">Address:</label>
-              <input
                 type="text"
-                value={address}
-                className="input"
-                onChange={(e) => setAddress(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
@@ -291,6 +249,82 @@ export default function StudentInfo() {
                 onChange={(e) => setPhone(e.target.value)}
                 required
               />
+            </div>
+            <div className="si-input-container">
+              <label className="si-label">University Name:</label>
+              <input
+                type="text"
+                value={universityName}
+                className="input"
+                onChange={(e) => setUniversityName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="si-input-container">
+              <label className="si-label">Major:</label>
+              <input
+                type="text"
+                value={major}
+                className="input"
+                onChange={(e) => setMajor(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="si-from-to">
+              <div className="si-from">
+                <label className="">Education Start:</label>
+                <input
+                  type="date"
+                  className="input-number"
+                  value={from}
+                  onChange={(e) => setFrom(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="si-to">
+                <label className="">Education End:</label>
+                <input
+                  type="date"
+                  className="input-number"
+                  value={to}
+                  onChange={(e) => setTo(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="si-to">
+                <label className="si-label">Gpa </label>
+                <input
+                  type="number"
+                  className="input-number"
+                  value={gpa}
+                  onChange={(e) => setGpa(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="si-input-container"></div>
+
+            <div className="s-input-container">
+              <label className="custom-file-upload" htmlFor="file-upload">
+                Upload Your CV
+              </label>
+              <input
+                type="file"
+                className="input-file"
+                accept="pdf"
+                id="file-upload"
+                onChange={handleCvChange}
+              />
+              {cv.link ? (
+                <a href={cv.link} target="_blank">
+                  Your Current CV
+                </a>
+              ) : (
+                ""
+              )}
             </div>
             <button className="si-submit-btn" type="submit">
               Submit

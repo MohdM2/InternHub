@@ -53,9 +53,14 @@ public class CompanyService {
     }
 
     public Response updateCompany(Company company, MultipartFile image) {
-        String fileName = util.saveFile(image, baseDirectory);
-        if (fileName == null)
-            throw new RuntimeException("could not upload file");
+        String fileName = null;
+        if (image != null && !image.isEmpty()) {
+            fileName = util.saveFile(image, baseDirectory);
+            if (fileName == null)
+                throw new RuntimeException("could not upload file");
+        } else {
+            fileName = dao.getCompanyById(company.getId()).getLogo();
+        }
         company.setLogo(fileName);
         company.setUserId(dao.getCompanyById(company.getId()).getUserId());
         dao.updateCompany(company);
