@@ -49,7 +49,7 @@ export default function CompanyHome() {
     });
   }
   function postAnewInternShip() {
-    console.log(1);
+    // console.log(1);
   }
 
   return (

@@ -61,7 +61,7 @@ export default function StudentPostsPreview() {
   }
 
   function filter() {
-    console.log(44);
+    // console.log(44);
   }
 
   return (
