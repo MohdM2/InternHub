@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useUser } from "../../../Contexts/UserContext";
 import axios from "axios";
+import NavBar from "../../Nav/NavBar";
 export default function StudentInfo() {
   const navigate = useNavigate();
   const { user, updateUser } = useUser();
@@ -88,7 +89,7 @@ export default function StudentInfo() {
       data.append("major", major);
       data.append("educationStartDate", from.replaceAll("-", "/"));
       data.append("educationEndDate", to.replaceAll("-", "/"));
-      data.append("gpa", gpa);
+      data.append("gpa", Number(gpa));
       if (cv.file) data.append("cvFile", cv.file);
       data.append("bio", bio);
       for (let i = 0; i < certificates.length; i++) {
@@ -124,10 +125,6 @@ export default function StudentInfo() {
       alert(e.response.data.error);
     }
   };
-
-  function logout() {
-    navigate("/");
-  }
   function handleDeleteCertificate(id) {
     let deletedCertificates = certificates.filter((certificate) => {
       return certificate.id != id;
@@ -140,17 +137,16 @@ export default function StudentInfo() {
       setCv({ file, link: URL.createObjectURL(file) });
     }
   }
+  function numberInputOnWheelPreventChange(e) {
+    e.target.blur();
+    e.stopPropagation();
+    setTimeout(() => {
+      e.target.focus();
+    }, 0);
+  }
   return (
     <div className="si-student-info-container">
-      <div className="si-black-bg">
-        <h2 className="si-logo">InternHub</h2>
-        <input
-          className="si-logout"
-          type="submit"
-          value="logout"
-          onClick={logout}
-        />
-      </div>
+      <NavBar />
       <Progressbar progress={calculateProgress()} />
       <div className="si-white-bg">
         <div className="si-name-and-major">
@@ -201,6 +197,7 @@ export default function StudentInfo() {
               title={"skills"}
               multiple={true}
               data={avilableSkills}
+              selectedData={skills}
               change={setSkills}
             />
           </div>
@@ -299,6 +296,7 @@ export default function StudentInfo() {
                   type="number"
                   className="input-number"
                   value={gpa}
+                  onWheel={numberInputOnWheelPreventChange}
                   onChange={(e) => setGpa(e.target.value)}
                   required
                 />

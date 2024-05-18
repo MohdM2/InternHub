@@ -1,102 +1,91 @@
 import "./StudentProfile.css";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Email } from "@mui/icons-material";
 import { useUser } from "../../../Contexts/UserContext";
+import NavBar from "../../Nav/NavBar";
+import axios from "axios";
 export default function StudentProfile() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { id } = useParams();
   const { user, updateUser } = useUser();
-  const [firstName, setFirstName] = useState(user.data.firstName);
-  const [lastName, setLastName] = useState(user.data.lastName);
-  const [bio, setBio] = useState(user.data.bio);
-  const [cvLink, setCvLink] = useState(
-    `http://localhost:8080/files/${user.data.cv}`
-  );
-  const [email, setEmail] = useState(user.data.email);
-
-  const [phone, setPhone] = useState(user.data.phone);
-  const [major, setMajor] = useState(user.data.major);
-  const [gpa, setGpa] = useState(user.data.gpa);
-  const [from, setFrom] = useState(user.data.educationStartDate);
-  const [to, seTo] = useState(user.data.educationEndDate);
-  const [universityName, setUniversityName] = useState(user.data.university);
-  const [certificates, setCertificates] = useState(user.data.courses);
-  const [skills, setSkills] = useState(user.data.skills);
-
-  function logout() {
-    navigate("/");
-  }
+  const [student, setStudent] = useState({ courses: [], skills: [] });
+  console.log(student);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        let currentStudent = null;
+        if (id === user.id) currentStudent = user.data;
+        else
+          currentStudent = (
+            await axios.get(`http://localhost:8080/students/${id}`, {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            })
+          ).data.data;
+        setStudent({ ...student, ...currentStudent });
+      } catch (e) {
+        alert(e);
+        console.log(e);
+      }
+    }
+    fetchData();
+  }, []);
 
   function editProfile() {
-    navigate("/studentedit", {});
+    navigate("/studentedit");
   }
-  function goToHomePage() {
-    navigate("/studenthome", {});
-  }
-  let counter = 0;
   return (
     <div className="sp-container">
-      <div className="sp-black-bg">
-        <h2 className="sp-logo" onClick={goToHomePage}>
-          InternHub
-        </h2>
-        <input
-          className="sp-logout"
-          type="submit"
-          value="logout"
-          onClick={logout}
-        />
-      </div>
+      <NavBar showHomeButton={true} showBackButton={true} />
       <div className="sp-white-bg">
         <div className="sp-name-and-major">
           <h1 className="sp-name">
-            {firstName} {lastName}
+            {student.firstName} {student.lastName}
           </h1>
-          <h2 className="sp-major">{major}</h2>
+          <h2 className="sp-major">{student.major}</h2>
         </div>
         <div className="sp-editprofile">
-          <input
-            className="input"
-            type="submit"
-            value={"edit profile"}
-            onClick={editProfile}
-          />
+          {student.id === user.data.id ? (
+            <input
+              className="input"
+              type="submit"
+              value={"edit profile"}
+              onClick={editProfile}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="sp-info-content">
         <div className="sp-left-info">
           <div className="sp-aboutme">
             <h1>About me</h1>
-            <p>{bio}</p>
+            <p>{student.bio}</p>
           </div>
           <hr />
           <div className="sp-education">
             <h1>Education</h1>
-            <h3>{universityName}</h3>
-            <span className="sp-from">{from}</span>{" "}
-            <span className="sp-to"> - {to}</span>{" "}
+            <h3>{student.university}</h3>
+            <span className="sp-from">{student.educationStartDate}</span>{" "}
+            <span className="sp-to"> - {student.educationEndDate}</span>{" "}
             <div className="sp-gpa">
-              Gpa : <span> {gpa}</span>{" "}
+              Gpa : <span> {student.gpa}</span>{" "}
             </div>
           </div>
           <hr />
           <div className="sp-certifications">
-            <h1>Certifications ({certificates.length}) </h1>
+            <h1>Certifications {`(${student.courses.length})`} </h1>
             <div>
-              {
-                // certificates[0].certificateName
-
-                certificates.map((certificate) => (
-                  <div className="sp-education" key={certificate.id}>
-                    <h3>{`${certificate.name} - ${certificate.provider}`}</h3>
-                    <span className="sp-from">
-                      {certificate.startDate}
-                    </span>{" "}
-                    <span className="sp-to"> - {certificate.endDate}</span>{" "}
-                  </div>
-                ))
-              }
+              {student.courses.map((course) => (
+                <div className="sp-education" key={course.id}>
+                  <h3>{`${course.name} - ${course.provider}`}</h3>
+                  <span className="sp-from">{course.startDate}</span>
+                  <span className="sp-to"> - {course.endDate}</span>{" "}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -104,15 +93,17 @@ export default function StudentProfile() {
           <div className="sp-information">
             <h1>Information</h1>
             <div className="sp-email">
-              Email address<span>{email}</span>{" "}
+              Email address<span>{student.email}</span>{" "}
             </div>
             <div className="sp-phone">
-              Phone number<span>{phone}</span>{" "}
+              Phone number<span>{student.phone}</span>{" "}
             </div>
             <div className="sp-resume">
               Resume
               <span>
-                <a href={cvLink}>Download Resume</a>
+                <a href={`http://localhost:8080/files/${student.cv}`}>
+                  Download Resume
+                </a>
               </span>
             </div>
           </div>
@@ -121,7 +112,7 @@ export default function StudentProfile() {
           <div className="sp-skills">
             <h1>Skills</h1>
             <div className="skills">
-              {skills.map((skill) => (
+              {student.skills.map((skill) => (
                 <span>{skill.name}</span>
               ))}
             </div>

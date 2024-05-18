@@ -6,11 +6,13 @@ const UserContext = createContext();
 // Create a provider component
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  if (!user && localStorage.getItem("user"))
+  if (!user && localStorage.getItem("user")) {
     setUser(JSON.parse(localStorage.getItem("user")));
+  }
   const updateUser = (newUser) => {
     setUser(newUser);
     localStorage.setItem("user", JSON.stringify(newUser));
+    if (!newUser) localStorage.removeItem("user");
   };
 
   return (

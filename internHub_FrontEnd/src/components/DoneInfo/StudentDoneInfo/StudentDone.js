@@ -1,15 +1,12 @@
 import "./StudentDone.css";
 import studentDoneImg from "../../../Assets/images/studentDone.png";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useUser } from "../../../Contexts/UserContext";
 export default function StudentDone() {
-  const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useUser();
   function goToStudentProfile() {
-    navigate("/studentprofile", {
-      state: {
-        ...location.state,
-      },
-    });
+    navigate(`/studentprofile/${user.data.id}`, {});
   }
   return (
     <div className="sd-container">

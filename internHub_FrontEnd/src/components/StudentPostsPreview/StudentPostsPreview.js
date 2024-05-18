@@ -1,88 +1,42 @@
 import "./StudentPostsPreview.css";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useLocation, useNavigate } from "react-router-dom";
 import Apply from "../Posts/CompanyPost/Apply";
+import { useUser } from "../../Contexts/UserContext";
+import NavBar from "../Nav/NavBar";
+import axios from "axios";
+import { useEffect, useState } from "react";
 export default function StudentPostsPreview() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  function goToHomePage() {
-    navigate("/studenthome", {
-      state: {
-        userType: location.state.userType,
-        username: location.state.username,
-        email: location.state.email,
-
-        firstName: location.state.firstName,
-        lastName: location.state.lastName,
-        bio: location.state.bio,
-        cvLink: location.state.cvLink,
-        phone: location.state.phone,
-        major: location.state.major,
-        gpa: location.state.gpa,
-        universityName: location.state.universityName,
-
-        certificates: location.state.certificates,
-        skills: location.state.skills,
-
-        address: location.state.address,
-        from: location.state.from,
-        to: location.state.to,
-      },
-    });
+  const { user } = useUser();
+  const [jobs, setJobs] = useState([]);
+  async function fetchJobs() {
+    try {
+      const jobs = await axios.get(
+        `http://localhost:8080/jobs/company/${user.data.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      setJobs(jobs.data.data);
+    } catch (e) {
+      alert(e);
+      console.log(e);
+    }
   }
-
-  function logout() {
-    navigate("/");
-  }
-  function goToProfile() {
-    navigate("/studentprofile", {
-      state: {
-        userType: location.state.userType,
-        username: location.state.username,
-        email: location.state.email,
-
-        firstName: location.state.firstName,
-        lastName: location.state.lastName,
-        bio: location.state.bio,
-        cvLink: location.state.cvLink,
-        phone: location.state.phone,
-        major: location.state.major,
-        gpa: location.state.gpa,
-        universityName: location.state.universityName,
-
-        certificates: location.state.certificates,
-        skills: location.state.skills,
-
-        address: location.state.address,
-        from: location.state.from,
-        to: location.state.to,
-      },
-    });
-  }
-
+  useEffect(() => {
+    fetchJobs();
+  }, []);
   function filter() {
     // console.log(44);
   }
 
   return (
     <div className="spp-container">
-      <div className="spp-black-bg">
-        <h2 className="spp-logo" onClick={goToHomePage}>
-          InternHub
-        </h2>
-        <div className="spp-img-logout">
-          <AccountCircleIcon
-            className="spp-accountCircle"
-            onClick={goToProfile}
-          />
-          <input
-            className="spp-logout"
-            type="submit"
-            value="logout"
-            onClick={logout}
-          />
-        </div>
-      </div>
+      <NavBar
+        shoWProfileButton={true}
+        showHomeButton={true}
+        showBackButton={true}
+      />
       <div className="spp-left-right-container">
         <div className="left">
           <h1>Internships Filter</h1>
@@ -112,32 +66,7 @@ export default function StudentPostsPreview() {
           </div>
         </div>
         <div className="right">
-          <div className="spp-container">
-            <div className="post">
-              <Apply />
-            </div>
-            <div className="post">
-              <Apply />
-            </div>
-            <div className="post">
-              <Apply />
-            </div>
-            <div className="post">
-              <Apply />
-            </div>
-            <div className="post">
-              <Apply />
-            </div>
-            <div className="post">
-              <Apply />
-            </div>
-            <div className="post">
-              <Apply />
-            </div>
-            <div className="post">
-              <Apply />
-            </div>
-          </div>
+          <div className="spp-container"></div>
         </div>
       </div>
     </div>

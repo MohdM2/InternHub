@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CompanyAddNewPostOverlay.css";
 
 import Button from "@mui/material/Button";
@@ -13,6 +13,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PaidUnPaid from "../../PaidUnPaid/PaidUnPaid";
 import PlaceIcon from "@mui/icons-material/Place";
 import DropDown from "../../DropDownList/DropDown";
+import { useUser } from "../../../Contexts/UserContext";
+import axios from "axios";
+import { Category } from "@mui/icons-material";
 const theme = createTheme({
   palette: {
     blue: {
@@ -20,10 +23,47 @@ const theme = createTheme({
     },
   },
 });
-function CompanyAddNewPostOverlay() {
+function CompanyAddNewPostOverlay({ submit }) {
+  const internShipType = ["remote", "on-site", "Hybrid"];
+  const internShipDuration = ["1-month", "2-months", "3-months", "3-6 months"];
   const [open, setOpen] = useState(false);
+  const { user, updateUser } = useUser();
   const [showPreview, setShowPreview] = useState(false); // New state for preview
-
+  const [availableSkills, setAvailableSkills] = useState([]);
+  const [availableCategories, setAvailableCategories] = useState([]);
+  const [data, setData] = useState({
+    title: "",
+    category: {},
+    type: internShipType[0],
+    duration: internShipDuration[0],
+    description: "",
+    skills: [],
+    paid: false,
+    salary: 0,
+  });
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const skills = await axios.get("http://localhost:8080/skills", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        setAvailableSkills(skills.data.data);
+        const categories = await axios.get("http://localhost:8080/categories", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        setAvailableCategories(categories.data.data);
+        setData({ ...data, category: categories.data.data[0] });
+      } catch (error) {
+        alert(error);
+        console.log("Error fetching skills:", error);
+      }
+    }
+    fetchData();
+  }, []);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -32,16 +72,36 @@ function CompanyAddNewPostOverlay() {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries(formData.entries());
-    console.log(formJson);
-    handleClose();
+    try {
+      // Assuming you have an API endpoint for creating a new post
+      const params = {
+        company: user.data,
+        name: data.title,
+        description: data.description,
+        duration: data.duration,
+        paid: data.paid,
+        salary: data.salary,
+        category: data.category,
+        onSiteRemote: data.type,
+        skills: data.skills,
+      };
+      console.log(JSON.stringify(params));
+      const response = await axios.post("http://localhost:8080/jobs", params, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      console.log("Post created successfully:", response.data);
+      handleClose();
+      submit();
+    } catch (error) {
+      alert("Error submitting post: " + error.message);
+      console.error("Error submitting post:", error);
+    }
   };
 
-  const internShipType = ["remote", "on-site", "Hybrid"];
-  const internShipDuration = ["1-month", "2-months", "3-months", "3-6 months"];
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -72,66 +132,35 @@ function CompanyAddNewPostOverlay() {
 
               {showPreview ? ( // Render preview or input fields based on showPreview
                 <div className="canp-details-container">
-                  {/* Display the entered information */}
-
-                  <h1 className="canp-title">Backend Developer</h1>
+                  <h1 className="canp-title">{data.title}</h1>
                   <div className="canp-preview-details">
                     <div className="canp-img">
                       <img
-                        src="https://placehold.co/100x100/0ed77a/green"
+                        src={`http://localhost:8080/files/${user.data.logo}`}
+                        style={{ maxWidth: "100px" }}
                         alt="company img"
                       />
                     </div>
                     <div className="canp-text">
-                      <h5>progress soft</h5>
-                      <h6>
-                        <PlaceIcon style={{ fontSize: "15px" }} /> Amman -
-                        Jordan
-                      </h6>
+                      <h5>{user.data.name}</h5>
                       <div className="canp-boxes">
-                        <span>On-site</span>
-                        <span>3-6 months</span>
-                        <span>150 JD</span>
+                        <span>{data.category.name}</span>
+                        <span>{data.type}</span>
+                        <span>{data.duration}</span>
+                        <span>
+                          {data.paid ? `${data.salary} JOD` : "Unpaid"}
+                        </span>
                       </div>
                     </div>
                   </div>
                   <div className="canp-about">
-                    <h1>my role</h1>
-                    <p>
-                      We’re searching for stand-out candidates who want to work
-                      in—and learn tons about—one of the following fields:
-                      Backend software engineering Data engineering
-                      Infrastructure engineering Mobile software engineering
-                      Security & privacy engineering Don’t worry if you’re not
-                      sure what area you’d like to work in just yet: We can take
-                      the time to chat about your interests and work out what’s
-                      likely to be the best fit for you. And when you apply for
-                      a job at Bending Spoons, we consider you for every
-                      suitable open position.
-                    </p>
-                    <h1 style={{ marginTop: "30px" }}>Qualifications</h1>
-                    <p>
-                      Bachelor’s degree in Computer Science, Engineering or any
-                      related field. Proven working experience in Java
-                      development. Object oriented analysis and design using
-                      common design patterns. Experience in Spring framework and
-                      its related technologies.
-                    </p>
-                    <h1 style={{ marginTop: "30px" }}>responsibilities</h1>
-                    <p>
-                      Contribute to all phases of the development life cycle.
-                      Write well-designed, testable and efficient code. Ensure
-                      that designs comply with the specifications. Support
-                      continuous improvement by investigating alternatives and
-                      technologies and presenting these for architectural
-                      review.
-                    </p>
-                    <h1 style={{ marginTop: "30px" }}>Skills</h1>
+                    <h1>Description</h1>
+                    <p style={{ whiteSpace: "pre-wrap" }}>{data.description}</p>
+                    <h1 style={{ marginTop: "30px" }}>Required Skills</h1>
                     <p className="canp-skills">
-                      <span> Debugging </span>
-                      <span> clean code </span>
-                      <span> OOP </span>
-                      <span> Excel </span>
+                      {data.skills.map((s) => (
+                        <span>{s.name}</span>
+                      ))}
                     </p>
                   </div>
                   {/* Render the internship details here */}
@@ -147,26 +176,51 @@ function CompanyAddNewPostOverlay() {
                         name="jobTitle"
                         label="Internship Title"
                         required
+                        value={data.title}
+                        onChange={(e) =>
+                          setData({ ...data, title: e.target.value })
+                        }
                       />
                     </div>
 
                     <div className="canp-div">
                       <DropDownNewInternShip
-                        details={{
-                          myArr: internShipType,
-                          labelName: "Internship type",
-                        }}
                         className="canp-field"
+                        title="Internship Category"
+                        data={availableCategories.map((c) => c.name)}
+                        value={data.category.name}
+                        change={(e) =>
+                          setData({
+                            ...data,
+                            category: availableCategories.find(
+                              (c) => c.name === e.target.value
+                            ),
+                          })
+                        }
                       />
                     </div>
 
                     <div className="canp-div">
                       <DropDownNewInternShip
-                        details={{
-                          myArr: internShipDuration,
-                          labelName: "Internship duration",
-                        }}
                         className="canp-field"
+                        title="Internship Type"
+                        data={internShipType}
+                        value={data.type}
+                        change={(e) =>
+                          setData({ ...data, type: e.target.value })
+                        }
+                      />
+                    </div>
+
+                    <div className="canp-div">
+                      <DropDownNewInternShip
+                        data={internShipDuration}
+                        title="Internship Duration"
+                        className="canp-field"
+                        value={data.duration}
+                        change={(e) =>
+                          setData({ ...data, duration: e.target.value })
+                        }
                       />
                     </div>
 
@@ -180,14 +234,30 @@ function CompanyAddNewPostOverlay() {
                         multiline
                         rows={4}
                         required
+                        value={data.description}
+                        onChange={(e) =>
+                          setData({ ...data, description: e.target.value })
+                        }
                       />
                     </div>
                     <div className="canp-div">
-                      <DropDown title="skills" />
+                      <DropDown
+                        multiple={true}
+                        title="skills"
+                        data={availableSkills}
+                        selectedData={data.skills}
+                        change={(v) => setData({ ...data, skills: v })}
+                      />
                     </div>
 
                     <div className="canp-div">
-                      <PaidUnPaid />
+                      <PaidUnPaid
+                        value={{ paid: data.paid, salary: data.salary }}
+                        change={(v) =>
+                          setData({ ...data, paid: v.paid, salary: v.salary })
+                        }
+                        // change={(v) => console.log(v)}
+                      />
                     </div>
                   </div>
                   <div className="canp-right-side">

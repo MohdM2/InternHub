@@ -5,9 +5,18 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import TextField from "@mui/material/TextField";
-export default function PaidUnPaid() {
-  const [selectedValue, setSelectedValue] = React.useState("Unpaid");
-  const [salary, setSalary] = React.useState(""); // State for salary input
+export default function PaidUnPaid({ value, change }) {
+  const [selectedValue, setSelectedValue] = React.useState(
+    value.paid ? "Paid" : "Unpaid"
+  );
+  const [salary, setSalary] = React.useState(value.salary);
+
+  React.useEffect(() => {
+    change({
+      paid: selectedValue === "Paid",
+      salary: selectedValue === "Paid" ? salary : 0,
+    });
+  }, [selectedValue, salary]);
 
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);

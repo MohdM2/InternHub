@@ -27,10 +27,13 @@ public class Job {
     private JobCategory category;
 
     @Column(name = "duration")
-    private int duration;
+    private String duration;
 
     @Column(name = "is_paid")
     private boolean isPaid;
+
+    @Column(name = "salary")
+    private double salary;
 
     @Column(name = "on_site_remote")
     private String onSiteRemote;
@@ -88,11 +91,11 @@ public class Job {
         this.category = category;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 
@@ -118,6 +121,14 @@ public class Job {
 
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     @Override

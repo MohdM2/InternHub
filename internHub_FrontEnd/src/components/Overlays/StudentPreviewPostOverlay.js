@@ -1,15 +1,13 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
-import PlaceIcon from "@mui/icons-material/Place";
 import SnackBar from "../Snackbar/Snackbar";
+import { useUser } from "../../Contexts/UserContext";
+import axios from "axios";
 const theme = createTheme({
   palette: {
     blue: {
@@ -20,9 +18,9 @@ const theme = createTheme({
     },
   },
 });
-export default function StudentPreviewPostOverlay() {
+export default function StudentPreviewPostOverlay({ data }) {
   const [open, setOpen] = React.useState(false);
-
+  const { user } = useUser();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -30,18 +28,32 @@ export default function StudentPreviewPostOverlay() {
   const handleClose = () => {
     setOpen(false);
   };
-  const [showPreview, setShowPreview] = useState(false); // New state for preview
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries(formData.entries());
-    // console.log(formJson);
-    handleClose();
+    try {
+      const params = {
+        student: user.data,
+        job: data,
+      };
+      console.log(JSON.stringify(params));
+      const response = await axios.post(
+        "http://localhost:8080/applications",
+        params,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      console.log("Post created successfully:", response.data);
+      handleClose();
+    } catch (error) {
+      alert("Error submitting post: " + error.message);
+      console.error("Error submitting post:", error);
+    }
   };
 
-  function showSnackBar() {
-    // console.log(55);
-  }
+  function showSnackBar() {}
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -67,59 +79,35 @@ export default function StudentPreviewPostOverlay() {
               {
                 // Render preview or input fields based on showPreview
                 <div className="canp-details-container">
-                  {/* Display the entered information */}
-
-                  <h1 className="canp-title">Backend Developer</h1>
+                  <h1 className="canp-title">{data.name}</h1>
                   <div className="canp-preview-details">
                     <div className="canp-img">
                       <img
-                        src="https://placehold.co/100x100/0ed77a/green"
+                        src={`http://localhost:8080/files/${data.company.logo}`}
+                        style={{ maxWidth: "100px" }}
                         alt="company img"
                       />
                     </div>
                     <div className="canp-text">
-                      <h5>progress soft</h5>
-                      <h6>
-                        <PlaceIcon style={{ fontSize: "15px" }} /> Amman -
-                        Jordan
-                      </h6>
+                      <h5>{data.company.name}</h5>
                       <div className="canp-boxes">
-                        <span>On-site</span>
-                        <span>3-6 months</span>
-                        <span>150 JD</span>
+                        <span>{data.category.name}</span>
+                        <span>{data.onSiteRemote}</span>
+                        <span>{data.duration}</span>
+                        <span>
+                          {data.paid ? `${data.salary} JOD` : "Unpaid"}
+                        </span>
                       </div>
                     </div>
                   </div>
                   <div className="canp-about">
-                    <h1>my role</h1>
-                    <p>
-                      We’re searching for stand-out candidates who want to work
-                      in—and learn tons about—one of the following fields:
-                      Backend software engineering Data engineering
-                      Infrastructure engineering Mobile software engineering
-                      Security & privacy engineering Don’t worry if you’re not
-                      sure what area you’d like to work in just yet: We can take
-                      the time to chat about your interests and work out what’s
-                      likely to be the best fit for you. And when you apply for
-                      a job at Bending Spoons, we consider you for every
-                      suitable open position.
-                    </p>
-                    <h1 style={{ marginTop: "30px" }}>Qualifications</h1>
-                    <p>
-                      Bachelor’s degree in Computer Science, Engineering or any
-                      related field. Proven working experience in Java
-                      development. Object oriented analysis and design using
-                      common design patterns. Experience in Spring framework and
-                      its related technologies.
-                    </p>
-                    <h1 style={{ marginTop: "30px" }}>responsibilities</h1>
-                    <p>
-                      Contribute to all phases of the development life cycle.
-                      Write well-designed, testable and efficient code. Ensure
-                      that designs comply with the specifications. Support
-                      continuous improvement by investigating alternatives and
-                      technologies and presenting these for architectural
-                      review.
+                    <h1>Description</h1>
+                    <p style={{ whiteSpace: "pre-wrap" }}>{data.description}</p>
+                    <h1 style={{ marginTop: "30px" }}>Required Skills</h1>
+                    <p className="canp-skills">
+                      {data.skills.map((s) => (
+                        <span>{s.name}</span>
+                      ))}
                     </p>
                   </div>
                   {/* Render the internship details here */}
@@ -132,8 +120,8 @@ export default function StudentPreviewPostOverlay() {
               <Button
                 type="submit"
                 variant="contained"
-                color="blue"
-                onClick={showSnackBar}
+                backgroundColor="blue"
+                onClick={handleSubmit}
               >
                 Apply now
               </Button>

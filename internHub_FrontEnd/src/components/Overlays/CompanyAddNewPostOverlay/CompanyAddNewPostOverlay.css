@@ -3,6 +3,9 @@
   display: flex;
   justify-content: space-between;
 }
+.canp-about {
+  font-size: 1rem;
+}
 .canp-left-side {
   /* background-color: blue; */
   width: 45%;
@@ -81,12 +84,14 @@
 }
 .canp-skills {
   margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 .canp-skills span {
   background-color: white;
   border: 1px solid black;
   border-radius: 10px;
-  margin-right: 3px;
   padding: 5px;
   font-family: "Kanit";
 }

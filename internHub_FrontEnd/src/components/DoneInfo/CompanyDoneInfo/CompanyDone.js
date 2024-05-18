@@ -1,13 +1,12 @@
 import "./CompanyDone.css";
 import companyDoneImg from "../../../Assets/images/companyDone.png";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useUser } from "../../../Contexts/UserContext";
 export default function CompanyDone() {
   const navigate = useNavigate();
-  let location = useLocation();
+  const { user } = useUser();
   function goToCompanyProfile() {
-    navigate("/companyprofile", {
-      state: { ...location.state },
-    });
+    navigate(`/companyprofile/${user.data.id}`);
   }
   return (
     <div className="cd-container">

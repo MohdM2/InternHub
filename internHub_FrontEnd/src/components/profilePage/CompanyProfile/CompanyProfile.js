@@ -1,125 +1,113 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./CompanyProfile.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CompanyPost from "../../Posts/CompanyPost/CompanyPost";
 import { useUser } from "../../../Contexts/UserContext";
+import NavBar from "../../Nav/NavBar";
+import axios from "axios";
 export default function CompanyProfile() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { user, updateUser } = useUser();
-  const [companyName, setCompanyName] = useState(user.data.name);
-  const [userType, setUserType] = useState(user.type);
-  const [email, setEmail] = useState(user.data.email);
-  const [bio, setBio] = useState(user.data.bio);
-  const [numEmployees, setNumEmployees] = useState(user.data.numberOfEmployees);
-  const [address, setAddress] = useState(user.data.address);
-  const [city, setCity] = useState(user.data.city);
-  const [country, setCountry] = useState(user.data.country);
-  const [logo, setLogo] = useState(
-    `http://localhost:8080/files/${user.data.logo}`
-  );
-  const [phone, setPhone] = useState(user.data.phone);
-  const [companySpeciality, setCompanySpeciality] = useState(
-    user.data.speciality
-  );
-
-  function logout() {
-    navigate("/");
-  }
+  const { id } = useParams();
+  const [company, setCompany] = useState("");
+  const { user } = useUser();
+  const [jobs, setJobs] = useState([]);
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        let company = null;
+        if (id === user.id) company = user.data;
+        else
+          company = (
+            await axios.get(`http://localhost:8080/companies/${id}`, {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            })
+          ).data.data;
+        setCompany(company);
+        const jobs = await axios.get(
+          `http://localhost:8080/jobs/company/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+        setJobs(jobs.data.data);
+      } catch (e) {
+        alert(e);
+        console.log(e);
+      }
+    }
+    fetchJobs();
+  }, []);
   function editProfile() {
     navigate("/companyedit", {});
   }
-  function goToHomePage() {
-    navigate("/companyhome", {
-      state: {
-        companyName: companyName,
-        userType: userType,
-        email: email,
-        bio: bio,
-        numEmployees: numEmployees,
-        address: address,
-        city: city,
-        country: country,
-        logo: logo,
-        phone: phone,
-        companySpeciality: companySpeciality,
-      },
-    });
-  }
   return (
     <div className="cp-container">
-      <div className="cp-black-bg">
-        <h2 className="cp-logo" onClick={goToHomePage}>
-          InternHub
-        </h2>
-        <input
-          className="cp-logout"
-          type="submit"
-          value="logout"
-          onClick={logout}
-        />
-      </div>
+      <NavBar showHomeButton={true} />
       <div className="cp-white-bg">
         <div className="cp-name-and-major">
-          {logo ? (
-            <img src={logo} alt="pink" />
+          {company.logo ? (
+            <img
+              src={`http://localhost:8080/files/${company.logo}`}
+              alt="pink"
+            />
           ) : (
             <img
-              src={`https://placehold.co/50x50/779900/FFF?text=${companyName}`}
+              src={`https://placehold.co/50x50/779900/FFF?text=${company.name}`}
               alt="pink"
             />
           )}
-          <h1 className="cp-name">{companyName}</h1>
-          <h2 className="cp-major">{companySpeciality}</h2>
+          <h1 className="cp-name">{company.name}</h1>
+          <h2 className="cp-major">{company.speciality}</h2>
         </div>
-        <div className="cp-editprofile">
-          <input
-            className="input"
-            type="submit"
-            value={"edit profile"}
-            onClick={editProfile}
-          />
-        </div>
+        {user.data.id == id ? (
+          <div className="cp-editprofile">
+            <input
+              className="input"
+              type="submit"
+              value={"edit profile"}
+              onClick={editProfile}
+            />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       <div className="cp-info-content">
         <div className="cp-left-info">
           <div className="cp-aboutus">
             <h1>About us</h1>
-            <p>{bio}</p>
+            <p>{company.bio}</p>
           </div>
         </div>
         <div className="cp-right-info">
           <div className="cp-information">
             <h1>Information</h1>
             <div className="cp-email">
-              Email address<span>{email}</span>{" "}
+              Email address<span>{company.email}</span>{" "}
             </div>
             <div className="cp-location">
-              Location <span>{address}</span>{" "}
+              Location <span>{company.address}</span>{" "}
             </div>
             <div className="cp-phone">
-              Phone number<span>{phone}</span>{" "}
+              Phone number<span>{company.phone}</span>{" "}
             </div>
 
             <div className="cp-employeesnumber">
-              Number of Employees <span>{numEmployees}</span>{" "}
+              Number of Employees <span>{company.numEmployees}</span>{" "}
             </div>
           </div>
 
           <hr />
-          {/* I should make a seperated component here */}
           <div className="cp-internships">
             <h1>Recent internships</h1>
             <div className="cp-posts-container">
-              <CompanyPost
-                details={{
-                  companyName: companyName,
-                  country: country,
-                  city: city,
-                }}
-              />
-              {/* <CompanyPost />
-              <CompanyPost /> */}
+              {jobs.slice(-3).map((j) => (
+                <CompanyPost data={j} />
+              ))}
             </div>
           </div>
         </div>

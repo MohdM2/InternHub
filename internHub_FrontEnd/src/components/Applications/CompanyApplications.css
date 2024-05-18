@@ -3,12 +3,13 @@
   width: 100%;
   min-height: 100vh;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding: 30px;
 }
 .ca-details-container {
-  width: 45%;
-  /* background-color: lawngreen; */
+  width: 100%;
+  padding: 20px;
 }
 .ca-details-container .ca-title {
   /* text-align: center; */
@@ -50,20 +51,22 @@
 }
 .ca-applications-container {
   /* background-color: purple; */
-  width: 400px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-top: 30px;
+  width: 100%;
   padding: 20px;
-  overflow: scroll;
 }
 .ca-applications-container h1 {
   font-family: "Kanit";
+  display: inline-block;
+  margin-right: 10px;
   font-weight: 500;
 }
 .ca-posts-container {
   /* background-color: cyan; */
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
+  gap: 20px;
+  margin-top: 20px;
   /* overflow: scroll; */
-  padding: 20px;
 }
