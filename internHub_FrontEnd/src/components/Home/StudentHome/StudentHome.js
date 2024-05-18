@@ -1,89 +1,60 @@
 import "./StudentHome.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import studentHome from "../../../Assets/images/studentHome.png";
-import CompanyPost from "../../Posts/CompanyPost/CompanyPost";
-import CompanyAddNewPostOverlay from "../../Overlays/CompanyAddNewPostOverlay/CompanyAddNewPostOverlay";
-import zIndex from "@mui/material/styles/zIndex";
 import Recent from "../../Posts/CompanyPost/Recent";
 import Apply from "../../Posts/CompanyPost/Apply";
+import NavBar from "../../Nav/NavBar";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useUser } from "../../../Contexts/UserContext";
 export default function StudentHome() {
-  const location = useLocation();
   const navigate = useNavigate();
-  function goToHomePage() {}
-
-  function logout() {
-    navigate("/");
+  const [jobs, setJobs] = useState([]);
+  const [applications, setApplicationss] = useState([]);
+  const { user } = useUser();
+  async function fetchJobs() {
+    try {
+      const jobs = await axios.get(
+        `http://localhost:8080/jobs/company/${user.data.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      setJobs(jobs.data.data);
+    } catch (e) {
+      alert(e);
+      console.log(e);
+    }
   }
-  function goToProfile() {
-    navigate("/studentprofile", {
-      state: {
-        userType: location.state.userType,
-        username: location.state.username,
-        email: location.state.email,
-
-        firstName: location.state.firstName,
-        lastName: location.state.lastName,
-        bio: location.state.bio,
-        cvLink: location.state.cvLink,
-        phone: location.state.phone,
-        major: location.state.major,
-        gpa: location.state.gpa,
-        universityName: location.state.universityName,
-
-        certificates: location.state.certificates,
-        skills: location.state.skills,
-
-        address: location.state.address,
-        from: location.state.from,
-        to: location.state.to,
-      },
-    });
+  async function fetchApplications() {
+    try {
+      const applications = await axios.get(
+        `http://localhost:8080/applications/student/${user.data.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      setApplicationss(applications.data.data);
+    } catch (e) {
+      alert(e);
+      console.log(e);
+    }
   }
+  useEffect(() => {
+    fetchJobs();
+    fetchApplications();
+  }, []);
+  console.log(applications);
   function seeAllPosts() {
-    navigate("/studentpostspreview", {
-      state: {
-        userType: location.state.userType,
-        username: location.state.username,
-        email: location.state.email,
-
-        firstName: location.state.firstName,
-        lastName: location.state.lastName,
-        bio: location.state.bio,
-        cvLink: location.state.cvLink,
-        phone: location.state.phone,
-        major: location.state.major,
-        gpa: location.state.gpa,
-        universityName: location.state.universityName,
-
-        certificates: location.state.certificates,
-        skills: location.state.skills,
-
-        address: location.state.address,
-        from: location.state.from,
-        to: location.state.to,
-      },
-    });
+    navigate("/studentpostspreview", {});
   }
   return (
     <div className="st-container">
-      <div className="st-black-bg">
-        <h2 className="st-logo" onClick={goToHomePage}>
-          InternHub
-        </h2>
-        <div className="st-img-logout">
-          <AccountCircleIcon
-            className="st-accountCircle"
-            onClick={goToProfile}
-          />
-          <input
-            className="st-logout"
-            type="submit"
-            value="logout"
-            onClick={logout}
-          />
-        </div>
-      </div>
+      <NavBar shoWProfileButton={true} />
       <div className="st-img-newintern-container">
         <div className="st-img">
           <img src={studentHome} alt="" />
@@ -99,25 +70,15 @@ export default function StudentHome() {
       <div className="st-posts-section-container">
         <h1>Recent applications</h1>
         <div className="st-applications-container">
-          <Recent status={"accept"} />
-          <Recent status={"accept"} />
-          <Recent status={"pending"} />
-          <Recent status={"accept"} />
-          <Recent status={"reject"} />
-          <Recent status={"reject"} />
-          <Recent status={"pending"} />
-          <Recent status={"pending"} />
+          {applications.map((a) => (
+            <Recent data={a} />
+          ))}
         </div>
         <h1>Apply now </h1>
         <div className="st-apply-container">
-          <Apply />
-          <Apply />
-          <Apply />
-          <Apply />
-          <Apply />
-          <Apply />
-          <Apply />
-          <Apply />
+          {jobs.map((j) => (
+            <Apply data={j} />
+          ))}
         </div>
         <div className="st-seeall">
           <button onClick={seeAllPosts}>See All</button>

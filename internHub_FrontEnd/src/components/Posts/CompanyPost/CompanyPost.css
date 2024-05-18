@@ -1,15 +1,15 @@
 .cpi-post {
   background-color: #fafafa;
-  width: 275px;
-  height: 170px;
+  width: 100%;
+  min-height: 170px;
   padding: 10px;
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 5px;
   position: relative;
   transition: 0.5s;
-  margin-bottom: 20px;
   cursor: pointer;
 }
 
@@ -43,14 +43,14 @@
 }
 .cpi-post .cpi-footer {
   /* background-color: purple; */
-  position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
-
+  align-items: center;
+  align-self: flex-end;
   border-top: 1px solid rgb(116, 116, 116);
 }
 .cpi-post .cpi-footer span {

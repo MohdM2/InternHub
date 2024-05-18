@@ -1,7 +1,7 @@
 import MenuItem from "@mui/material/MenuItem";
 
 import TextField from "@mui/material/TextField";
-export default function DropDownNewInternShip({ details }) {
+export default function DropDownNewInternShip({ title, data, value, change }) {
   return (
     <>
       <TextField
@@ -9,10 +9,12 @@ export default function DropDownNewInternShip({ details }) {
         size="small"
         fullWidth
         variant="outlined"
-        label={details.labelName}
+        label={title}
+        value={value || data[0]}
+        onChange={change}
         required
       >
-        {details.myArr.map((choice, index) => {
+        {data.map((choice, index) => {
           return (
             <MenuItem key={index} value={choice}>
               {choice}

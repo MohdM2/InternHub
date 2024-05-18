@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./CompanyInfo.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Progressbar from "../../Progressbar/Progressbar";
 import { useUser } from "../../../Contexts/UserContext";
 import axios from "axios";
+import NavBar from "../../Nav/NavBar";
 function CompanyInfo() {
   let navigate = useNavigate();
   const { user, updateUser } = useUser();
@@ -82,10 +83,6 @@ function CompanyInfo() {
       alert("please enter a company speciality");
     }
   };
-  //log out function
-  function logout() {
-    navigate("/");
-  }
   // Function to handle logo file selection
   const handleLogoChange = (event) => {
     const file = event.target.files[0];
@@ -96,15 +93,7 @@ function CompanyInfo() {
 
   return (
     <div className="c-company-info-container">
-      <div className="c-black-bg">
-        <h2 className="c-logo">InternHub</h2>
-        <input
-          className="c-logout"
-          type="submit"
-          value="logout"
-          onClick={logout}
-        />
-      </div>
+      <NavBar />
       <Progressbar progress={calculateProgress()} />
       <div className="c-white-bg">
         <div className="c-name-and-major">

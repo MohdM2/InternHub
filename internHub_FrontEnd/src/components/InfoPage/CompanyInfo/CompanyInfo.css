@@ -8,31 +8,6 @@ input::-webkit-inner-spin-button {
   width: 100%;
   min-height: 100vh;
 }
-.c-company-info-container .c-black-bg {
-  height: 107px;
-  width: 100%;
-  background-color: black;
-  display: flex;
-  padding: 20px;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #08aeea;
-  background-image: linear-gradient(0deg, #08aeea 0%, #2af598 100%);
-}
-.c-company-info-container .c-black-bg .c-logo {
-  font-size: 50px;
-  cursor: pointer;
-  color: white;
-}
-
-.c-company-info-container .c-black-bg .c-logout {
-  background-color: white;
-  border: none;
-  padding: 10px 30px;
-  font-family: "Kanit";
-  border-radius: 10px;
-  cursor: pointer;
-}
 .c-company-info-container .c-white-bg {
   display: flex;
   justify-content: center;
@@ -61,7 +36,6 @@ input::-webkit-inner-spin-button {
 }
 .logo {
   max-width: 250px;
-  
 }
 .c-company-info-container .c-name-and-major .c-name {
   font-family: "Kanit";

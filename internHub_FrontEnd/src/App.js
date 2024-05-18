@@ -32,8 +32,8 @@ function App() {
         <Route exact path="/welcome" element={<Welcome />} />
         <Route exact path="/studentinfo" element={<StudentInfo />} />
         <Route exact path="/companyinfo" element={<CompanyInfo />} />
-        <Route exact path="/studentprofile" element={<StudentProfile />} />
-        <Route exact path="/companyprofile" element={<CompanyProfile />} />
+        <Route exact path="/studentprofile/:id" element={<StudentProfile />} />
+        <Route exact path="/companyprofile/:id" element={<CompanyProfile />} />
         <Route exact path="/companydone" element={<CompanyDone />} />
         <Route exact path="/studentdone" element={<StudentDone />} />
         <Route exact path="/companyhome" element={<CompanyHome />} />
@@ -47,7 +47,7 @@ function App() {
         />
         <Route
           exact
-          path="/companyapplication"
+          path="/jobApplications/:id"
           element={<CompanyApplications />}
         />
       </Routes>
