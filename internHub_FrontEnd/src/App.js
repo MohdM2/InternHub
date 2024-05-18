@@ -21,6 +21,7 @@ function App() {
   //   console.log("effect");
   //   if (user == null) updateUser(JSON.parse(localStorage.getItem("user")));
   // });
+
   return (
     <div className="app">
       {/* <Routes>
