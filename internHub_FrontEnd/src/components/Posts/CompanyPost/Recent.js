@@ -21,7 +21,7 @@ export default function Recent({ data }) {
           </div>
         </div>
         <div className="cpi-footer">
-          <span> {`Applied on: ${data.job.submittionDate}`} </span>
+          <span> {`Applied on: ${data.submissionDate}`} </span>
           {data.status === "Accepted" && (
             <span> {<CheckCircleIcon style={{ color: "green" }} />}</span>
           )}

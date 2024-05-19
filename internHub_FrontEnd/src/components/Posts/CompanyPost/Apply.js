@@ -1,6 +1,6 @@
 import "./CompanyPost.css";
 import StudentPreviewPostOverlay from "../../Overlays/StudentPreviewPostOverlay";
-export default function Apply({ data }) {
+export default function Apply({ data, submit }) {
   function showPostDetails() {}
   return (
     <div>
@@ -16,9 +16,13 @@ export default function Apply({ data }) {
           </div>
         </div>
         <div className="cpi-footer">
-          <span> "22/4/2022" </span>
+          <span> View Details </span>
 
-          <StudentPreviewPostOverlay className="preview" data={data} />
+          <StudentPreviewPostOverlay
+            className="preview"
+            data={data}
+            submit={submit}
+          />
         </div>
       </div>
     </div>

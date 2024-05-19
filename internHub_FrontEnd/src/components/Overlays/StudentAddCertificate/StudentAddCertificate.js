@@ -116,6 +116,7 @@ export default function StudentAddCertificate({ addCertificate }) {
             name="to"
             label="to"
             type="date"
+            P
             fullWidth
             variant="standard"
             value={to}
