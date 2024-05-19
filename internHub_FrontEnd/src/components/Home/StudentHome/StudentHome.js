@@ -14,14 +14,11 @@ export default function StudentHome() {
   const { user } = useUser();
   async function fetchJobs() {
     try {
-      const jobs = await axios.get(
-        `http://localhost:8080/jobs/company/${user.data.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const jobs = await axios.get(`http://localhost:8080/jobs`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       setJobs(jobs.data.data);
     } catch (e) {
       alert(e);
@@ -77,7 +74,7 @@ export default function StudentHome() {
         <h1>Apply now </h1>
         <div className="st-apply-container">
           {jobs.map((j) => (
-            <Apply data={j} />
+            <Apply data={j} submit={fetchApplications} />
           ))}
         </div>
         <div className="st-seeall">

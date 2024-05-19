@@ -24,8 +24,8 @@ const theme = createTheme({
   },
 });
 function CompanyAddNewPostOverlay({ submit }) {
-  const internShipType = ["remote", "on-site", "Hybrid"];
-  const internShipDuration = ["1-month", "2-months", "3-months", "3-6 months"];
+  const internShipType = ["Remote", "On-site", "Hybrid"];
+  const internShipDuration = ["1 month", "2 months", "3 months", "3-6 months"];
   const [open, setOpen] = useState(false);
   const { user, updateUser } = useUser();
   const [showPreview, setShowPreview] = useState(false); // New state for preview

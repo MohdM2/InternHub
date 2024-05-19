@@ -18,7 +18,7 @@ const theme = createTheme({
     },
   },
 });
-export default function StudentPreviewPostOverlay({ data }) {
+export default function StudentPreviewPostOverlay({ data, submit }) {
   const [open, setOpen] = React.useState(false);
   const { user } = useUser();
   const handleClickOpen = () => {
@@ -46,6 +46,7 @@ export default function StudentPreviewPostOverlay({ data }) {
         }
       );
       console.log("Post created successfully:", response.data);
+      submit();
       handleClose();
     } catch (error) {
       alert("Error submitting post: " + error.message);

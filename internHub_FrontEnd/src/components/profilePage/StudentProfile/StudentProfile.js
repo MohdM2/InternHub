@@ -1,7 +1,6 @@
 import "./StudentProfile.css";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Email } from "@mui/icons-material";
 import { useUser } from "../../../Contexts/UserContext";
 import NavBar from "../../Nav/NavBar";
 import axios from "axios";
