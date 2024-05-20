@@ -9,6 +9,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { useUser } from "../../../Contexts/UserContext";
 import axios from "axios";
 import NavBar from "../../Nav/NavBar";
+import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 export default function StudentInfo() {
   const navigate = useNavigate();
   const { user, updateUser } = useUser();
@@ -144,7 +145,31 @@ export default function StudentInfo() {
       e.target.focus();
     }, 0);
   }
-  return (
+
+  const [loading, setLoading] = useState(false);
+  let [color, setColor] = useState("#36d7b7");
+
+  useEffect(() => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
+  }, []);
+
+  return loading ? (
+    <ClimbingBoxLoader
+      color={color}
+      loading={loading}
+      size={20}
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translateXY(-50%,-50%)",
+      }}
+    />
+  ) : (
     <div className="si-student-info-container">
       <NavBar />
       <Progressbar progress={calculateProgress()} />
@@ -176,9 +201,7 @@ export default function StudentInfo() {
                 {certificate.name}
                 <span className="si-delete">
                   <ClearIcon
-                    onClick={() => {
-                      handleDeleteCertificate(certificate.id);
-                    }}
+                    onClick={() => handleDeleteCertificate(certificate.id)}
                     style={{
                       color: "red",
                       position: "absolute",
@@ -203,7 +226,7 @@ export default function StudentInfo() {
           </div>
         </div>
 
-        <div className=" right-side">
+        <div className="right-side">
           <h1>Information</h1>
           <form className="form" onSubmit={handleSubmit}>
             <div className="si-input-container">
@@ -317,7 +340,7 @@ export default function StudentInfo() {
                 onChange={handleCvChange}
               />
               {cv.link ? (
-                <a href={cv.link} target="_blank">
+                <a href={cv.link} target="_blank" rel="noopener noreferrer">
                   Your Current CV
                 </a>
               ) : (

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import DropDownNewInternShip from "../DropDownNewInternshipForm/DropDownNewInternShip";
 import { TextField } from "@mui/material";
+import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 export default function StudentPostsPreview() {
   const internShipType = ["Remote", "On-site", "Hybrid"];
   const internShipDuration = ["1 month", "2 months", "3 months", "3-6 months"];
@@ -56,75 +57,98 @@ export default function StudentPostsPreview() {
       })
     );
   }
+  const [loading, setLoading] = useState(false);
+  let [color, setColor] = useState("#36d7b7");
 
-  return (
-    <div className="spp-container">
-      <NavBar
-        shoWProfileButton={true}
-        showHomeButton={true}
-        showBackButton={true}
-      />
-      <div className="spp-left-right-container">
-        <div className="left">
-          <h1>Filter Internships</h1>
-          <div className="boxes">
-            <div className="box">
-              <TextField
-                fullWidth
-                className="canp-field"
-                margin="dense"
-                label="Company Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />{" "}
-            </div>
-            <div className="box">
-              <DropDownNewInternShip
-                className="canp-field"
-                title="Internship Category"
-                data={availableCategories.map((c) => c.name)}
-                value={category.name}
-                change={(e) =>
-                  setCategory(
-                    availableCategories.find((c) => c.name === e.target.value)
-                  )
-                }
+  useEffect(() => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
+  }, []);
+  return loading ? (
+    <ClimbingBoxLoader
+      color={color}
+      loading={loading}
+      size={20}
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translateXY(-50%,-50%)",
+      }}
+    />
+  ) : (
+    <>
+      <div className="spp-container">
+        <NavBar
+          shoWProfileButton={true}
+          showHomeButton={true}
+          showBackButton={true}
+        />
+        <div className="spp-left-right-container">
+          <div className="left">
+            <h1>Filter Internships</h1>
+            <div className="boxes">
+              <div className="box">
+                <TextField
+                  fullWidth
+                  className="canp-field"
+                  margin="dense"
+                  label="Company Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />{" "}
+              </div>
+              <div className="box">
+                <DropDownNewInternShip
+                  className="canp-field"
+                  title="Internship Category"
+                  data={availableCategories.map((c) => c.name)}
+                  value={category.name}
+                  change={(e) =>
+                    setCategory(
+                      availableCategories.find((c) => c.name === e.target.value)
+                    )
+                  }
+                />
+              </div>
+              <div className="box">
+                <DropDownNewInternShip
+                  className="canp-field"
+                  title="Internship Type"
+                  data={internShipType}
+                  value={type}
+                  change={(e) => setType(e.target.value)}
+                />
+              </div>
+              <div className="box">
+                <DropDownNewInternShip
+                  className="canp-field"
+                  title="Internship Duration"
+                  data={internShipDuration}
+                  value={duration}
+                  change={(e) => setDuration(e.target.value)}
+                />
+              </div>
+              <input
+                className="submit"
+                type="submit"
+                value="Search`"
+                onClick={filter}
               />
             </div>
-            <div className="box">
-              <DropDownNewInternShip
-                className="canp-field"
-                title="Internship Type"
-                data={internShipType}
-                value={type}
-                change={(e) => setType(e.target.value)}
-              />
-            </div>
-            <div className="box">
-              <DropDownNewInternShip
-                className="canp-field"
-                title="Internship Duration"
-                data={internShipDuration}
-                value={duration}
-                change={(e) => setDuration(e.target.value)}
-              />
-            </div>
-            <input
-              className="submit"
-              type="submit"
-              value="Search`"
-              onClick={filter}
-            />
           </div>
-        </div>
-        <div className="right">
-          <div className="spp-container">
-            {filteredJobs.map((j) => (
-              <Apply data={j}></Apply>
-            ))}
+          <div className="right">
+            <div className="spp-container">
+              {filteredJobs.map((j) => (
+                <Apply data={j}></Apply>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
