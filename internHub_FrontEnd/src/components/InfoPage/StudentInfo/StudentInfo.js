@@ -61,25 +61,33 @@ export default function StudentInfo() {
     ]);
   }
   function calculateProgress() {
-    const totalFields = 9; // Total number of input fields
+    const totalFields = 12; // Total number of input fields
     let completedFields = 0;
 
     if (firstName) completedFields++;
-
     if (lastName) completedFields++;
+    if (email) completedFields++;
     if (bio) completedFields++;
-    if (cv) completedFields++;
+    if (cv.file || cv.link) completedFields++;
     if (phone) completedFields++;
     if (major) completedFields++;
     if (gpa) completedFields++;
     if (from) completedFields = completedFields + 0.5;
     if (to) completedFields = completedFields + 0.5;
     if (universityName) completedFields++;
-
-    return Math.floor((completedFields / totalFields) * 100);
+    completedFields += Math.min(1, skills.length / 3);
+    completedFields += Math.min(1, certificates.length);
+    let progress = Math.floor((completedFields / totalFields) * 100);
+    return progress;
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (calculateProgress() < 100) {
+      alert(
+        "You must complete all fields, and you must enter at least 1 course and 3 skills to continue"
+      );
+      return;
+    }
     try {
       const data = new FormData();
       data.append("firstName", firstName);
@@ -146,30 +154,7 @@ export default function StudentInfo() {
     }, 0);
   }
 
-  const [loading, setLoading] = useState(false);
-  let [color, setColor] = useState("#36d7b7");
-
-  useEffect(() => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 3500);
-  }, []);
-
-  return loading ? (
-    <ClimbingBoxLoader
-      color={color}
-      loading={loading}
-      size={20}
-      style={{
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        transform: "translateXY(-50%,-50%)",
-      }}
-    />
-  ) : (
+  return (
     <div className="si-student-info-container">
       <NavBar />
       <Progressbar progress={calculateProgress()} />
@@ -183,7 +168,7 @@ export default function StudentInfo() {
 
       <div className="si-form-container">
         <div className="si-bio-container">
-          <label className="si-label">About Us :</label>
+          <label className="si-label">About Me :</label>
           <textarea
             className="si-textarea"
             value={bio}
@@ -261,7 +246,7 @@ export default function StudentInfo() {
             </div>
 
             <div className="si-input-container">
-              <label className="si-label">Phone:</label> <br />
+              <label className="si-label">Phone:</label>
               <input
                 className="input-phone"
                 type="tel"

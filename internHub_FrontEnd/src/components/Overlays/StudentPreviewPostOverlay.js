@@ -5,9 +5,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import SnackBar from "../Snackbar/Snackbar";
 import { useUser } from "../../Contexts/UserContext";
+import { useSnackBar } from "../../Contexts/SnackbarContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const theme = createTheme({
   palette: {
     blue: {
@@ -21,6 +22,8 @@ const theme = createTheme({
 export default function StudentPreviewPostOverlay({ data, submit }) {
   const [open, setOpen] = React.useState(false);
   const { user } = useUser();
+  const { showSnackBar } = useSnackBar();
+  const navigate = useNavigate();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -45,8 +48,8 @@ export default function StudentPreviewPostOverlay({ data, submit }) {
           },
         }
       );
-      console.log("Post created successfully:", response.data);
       submit();
+      showSnackBar("Application sumbitted successfully");
       handleClose();
     } catch (error) {
       alert("Error submitting post: " + error.message);
@@ -54,7 +57,6 @@ export default function StudentPreviewPostOverlay({ data, submit }) {
     }
   };
 
-  function showSnackBar() {}
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -90,7 +92,14 @@ export default function StudentPreviewPostOverlay({ data, submit }) {
                       />
                     </div>
                     <div className="canp-text">
-                      <h5>{data.company.name}</h5>
+                      <h5
+                        className="clickable"
+                        onClick={() =>
+                          navigate(`/companyprofile/${data.company.id}`)
+                        }
+                      >
+                        {data.company.name}
+                      </h5>
                       <div className="canp-boxes">
                         <span>{data.category.name}</span>
                         <span>{data.onSiteRemote}</span>
@@ -130,7 +139,6 @@ export default function StudentPreviewPostOverlay({ data, submit }) {
                 Cancel
               </Button>
             </DialogActions>
-            <SnackBar />
           </form>
         </Dialog>
       </ThemeProvider>

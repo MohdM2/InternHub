@@ -60,7 +60,6 @@
 .right .spp-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  height: 80vh;
   padding: 40px;
   gap: 30px;
 }

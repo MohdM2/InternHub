@@ -7,6 +7,14 @@ import { useUser } from "../../../Contexts/UserContext";
 import axios from "axios";
 import NavBar from "../../Nav/NavBar";
 function CompanyInfo() {
+  const employeeCategories = [
+    "1-10",
+    "11-50",
+    "51-100",
+    "101-500",
+    "501-1000",
+    "1001+",
+  ];
   let navigate = useNavigate();
   const { user, updateUser } = useUser();
   const [companyName, setCompanyName] = useState(user.data.name || "");
@@ -29,59 +37,56 @@ function CompanyInfo() {
     user.data.speciality || ""
   );
   function calculateProgress() {
-    const totalFields = 10; // Total number of input fields
+    const totalFields = 9; // Total number of input fields
     let completedFields = 0;
 
     if (companyName) completedFields++;
-
     if (bio) completedFields++;
     if (numEmployees) completedFields++;
     if (address) completedFields++;
     if (city) completedFields++;
     if (country) completedFields++;
-    if (logo) completedFields++;
-    if (email) completedFields++;
     if (phone) completedFields++;
+    if (logo.file || logo.link) completedFields++;
     if (companySpeciality) completedFields++;
 
     return Math.floor((completedFields / totalFields) * 100);
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission logic here
-    if (companySpeciality != "") {
-      try {
-        const data = new FormData();
-        data.append("name", companyName);
-        data.append("country", country);
-        data.append("city", city);
-        data.append("email", email);
-        data.append("address", address);
-        data.append("phone", phone);
-        data.append("bio", bio);
-        data.append("speciality", companySpeciality);
-        data.append("numberOfEmployees", numEmployees);
-        console.log(user);
-        console.log(`http://localhost:8080/companies/${user.data.id}`);
-        if (logo.file) data.append("logoFile", logo.file);
-        const response = await axios.put(
-          `http://localhost:8080/companies/${user.data.id}`,
-          data,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data", // Set the content type to form-data
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
-        updateUser({ ...user, data: response.data.data });
-      } catch (e) {
-        alert(e.response.data.error);
-      }
-      navigate("/companydone", {});
-    } else {
-      alert("please enter a company speciality");
+    if (calculateProgress() < 100) {
+      alert("Please fill all fields to continue");
+      return;
     }
+    try {
+      const data = new FormData();
+      data.append("name", companyName);
+      data.append("country", country);
+      data.append("city", city);
+      data.append("email", email);
+      data.append("address", address);
+      data.append("phone", phone);
+      data.append("bio", bio);
+      data.append("speciality", companySpeciality);
+      data.append("numberOfEmployees", numEmployees);
+      console.log(user);
+      console.log(`http://localhost:8080/companies/${user.data.id}`);
+      if (logo.file) data.append("logoFile", logo.file);
+      const response = await axios.put(
+        `http://localhost:8080/companies/${user.data.id}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set the content type to form-data
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      updateUser({ ...user, data: response.data.data });
+    } catch (e) {
+      alert(e.response.data.error);
+    }
+    navigate("/companydone", {});
   };
   // Function to handle logo file selection
   const handleLogoChange = (event) => {
@@ -113,15 +118,8 @@ function CompanyInfo() {
               onChange={handleLogoChange} // Call handleLogoChange function on file selection
             />
           </div>
-          <h1 className="c-name"> {user.data.name}</h1>
-          <input
-            value={companySpeciality}
-            onChange={(e) => setCompanySpeciality(e.target.value)}
-            className="input"
-            type="text"
-            placeholder="company speciality"
-            required
-          />
+          <h1 className="c-name"> {companyName}</h1>
+          <h2 className="c-speciality"> {companySpeciality}</h2>
         </div>
       </div>
       <hr className="splitter" />
@@ -132,6 +130,7 @@ function CompanyInfo() {
           <textarea
             className="c-textarea"
             value={bio}
+            required
             placeholder=" let's get to know you better"
             onChange={(e) => setBio(e.target.value)}
           ></textarea>
@@ -150,16 +149,29 @@ function CompanyInfo() {
                 required
               />
             </div>
+            <div className="c-input-container">
+              <label className="c-label">Company Speciality:</label>
+              <input
+                value={companySpeciality}
+                onChange={(e) => setCompanySpeciality(e.target.value)}
+                className="input"
+                type="text"
+                required
+              />
+            </div>
 
             <div className="c-input-container">
-              <label className="c-label">Number of Employees:</label> <br />
-              <input
+              <label className="c-label">Number of Employees:</label>
+              <select
                 className="input-number"
-                type="text"
                 value={numEmployees}
                 onChange={(e) => setNumEmployees(e.target.value)}
                 required
-              />
+              >
+                {employeeCategories.map((c) => (
+                  <option value={c}>{c}</option>
+                ))}
+              </select>
             </div>
             <div className="c-input-container">
               <label className="c-label">Address:</label>
@@ -175,7 +187,7 @@ function CompanyInfo() {
             <div className="c-input-container">
               <label className="c-label">Country:</label>
               <input
-                className="input"
+                className="input small"
                 type="text"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
@@ -186,7 +198,7 @@ function CompanyInfo() {
               <label className="c-label">City:</label>
               <input
                 type="text"
-                className="input"
+                className="input small"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 required
@@ -194,10 +206,10 @@ function CompanyInfo() {
             </div>
 
             <div className="c-input-container">
-              <label className="c-label">Phone:</label> <br />
+              <label className="c-label">Phone:</label>
               <input
-                className="input-phone"
-                type="tel"
+                className="input small"
+                type="text"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 required

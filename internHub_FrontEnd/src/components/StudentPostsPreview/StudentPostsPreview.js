@@ -18,31 +18,39 @@ export default function StudentPostsPreview() {
   const [type, setType] = useState(internShipType[0]);
   const [duration, setDuration] = useState(internShipDuration[0]);
   const [availableCategories, setAvailableCategories] = useState([]);
-  async function fetchJobs() {
+  console.log(jobs);
+  async function fetchData() {
     try {
+      const categories = await axios.get(`http://localhost:8080/categories`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      setAvailableCategories(categories.data.data);
+      const applications = await axios.get(
+        `http://localhost:8080/applications/student/${user.data.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const appliedJobs = applications.data.data.map((a) => a.job.id);
       const jobs = await axios.get(`http://localhost:8080/jobs`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       });
-      setJobs(jobs.data.data);
-      setFilteredJobs(jobs.data.data);
+      const newJobs = jobs.data.data.filter((j) => !appliedJobs.includes(j.id));
+      setJobs(newJobs);
+      setFilteredJobs(newJobs);
     } catch (e) {
       alert(e);
       console.log(e);
     }
   }
-  async function fetchCategories() {
-    const categories = await axios.get("http://localhost:8080/categories", {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    setAvailableCategories(categories.data.data);
-  }
   useEffect(() => {
-    fetchJobs();
-    fetchCategories();
+    fetchData();
   }, []);
   function filter() {
     console.log(duration, type);
@@ -65,7 +73,7 @@ export default function StudentPostsPreview() {
 
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 1000);
   }, []);
   return loading ? (
     <ClimbingBoxLoader
@@ -78,6 +86,7 @@ export default function StudentPostsPreview() {
         top: "50%",
         transform: "translateXY(-50%,-50%)",
       }}
+      speedMultiplier={2}
     />
   ) : (
     <>
@@ -143,7 +152,7 @@ export default function StudentPostsPreview() {
           <div className="right">
             <div className="spp-container">
               {filteredJobs.map((j) => (
-                <Apply data={j}></Apply>
+                <Apply data={j} submit={fetchData}></Apply>
               ))}
             </div>
           </div>

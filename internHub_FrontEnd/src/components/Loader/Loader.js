@@ -1,10 +1,8 @@
 import React from "react";
-import "./Loader.css";
+import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 
-const Loader = ({ loading }) => {
-  return (
-    <div className={`loader ${loading ? "visible" : "hidden"}`}>Loading...</div>
-  );
+const Loader = ({ loading, color }) => {
+  return <ClimbingBoxLoader color={color} loading={false} size={20} />;
 };
 
 export default Loader;

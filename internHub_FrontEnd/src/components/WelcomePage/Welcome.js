@@ -27,13 +27,18 @@ export default function Welcome() {
 
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 1000);
   }, []);
 
   return (
     <div className="w-container">
       {loading ? (
-        <ClimbingBoxLoader color={color} loading={loading} size={20} />
+        <ClimbingBoxLoader
+          color={color}
+          loading={loading}
+          size={20}
+          speedMultiplier={2}
+        />
       ) : (
         <>
           <div className="w-check-icon-container">

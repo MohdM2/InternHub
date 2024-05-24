@@ -61,6 +61,31 @@
   margin-right: 10px;
   font-weight: 500;
 }
+.ca-applications-container .filters {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+}
+.ca-applications-container .filters button {
+  padding: 7px 15px;
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+.ca-applications-container .filters .active,
+.ca-applications-container .filters button:hover {
+  border-color: #3c91e6;
+  color: white;
+  background-color: #3c91e6;
+}
+.ca-applications-container .filters input {
+  display: none;
+}
 .ca-posts-container {
   /* background-color: cyan; */
   display: flex;

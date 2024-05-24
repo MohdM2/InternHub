@@ -9,7 +9,7 @@ services:
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pintern123321"]
       retries: 10
-      interval: 3s
+      interval: 10s
       timeout: 3s
   java_app:
     container_name: spring_api

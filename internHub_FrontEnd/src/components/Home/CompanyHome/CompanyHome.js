@@ -6,6 +6,7 @@ import NavBar from "../../Nav/NavBar";
 import { useUser } from "../../../Contexts/UserContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { ClimbingBoxLoader } from "react-spinners";
 export default function CompanyHome() {
   const { user, updateUser } = useUser();
   const [jobs, setJobs] = useState([]);
@@ -28,7 +29,31 @@ export default function CompanyHome() {
   useEffect(() => {
     fetchJobs();
   }, []);
-  return (
+  const [loading, setLoading] = useState(false);
+  let color = "#36d7b7";
+
+  useEffect(() => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  return loading ? (
+    <ClimbingBoxLoader
+      color={color}
+      loading={loading}
+      size={20}
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translateXY(-50%,-50%)",
+      }}
+      speedMultiplier={2}
+    />
+  ) : (
     <div className="ch-container">
       <NavBar shoWProfileButton={true} />
       <div className="ch-img-newintern-container">

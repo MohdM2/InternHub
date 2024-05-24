@@ -11,7 +11,7 @@ export default function DropDown({
   change,
 }) {
   return (
-    <Stack spacing={30} sx={{ width: 200 }}>
+    <Stack spacing={30}>
       <Autocomplete
         multiple={multiple}
         id="tags-standard"

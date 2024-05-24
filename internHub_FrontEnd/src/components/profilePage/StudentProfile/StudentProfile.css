@@ -1,30 +1,7 @@
 .sp-container {
   background-color: #d9d9d9;
   width: 100%;
-}
-.sp-black-bg {
-  height: 107px;
-  width: 100%;
-
-  display: flex;
-  padding: 20px;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #08aeea;
-  background-image: linear-gradient(0deg, #08aeea 0%, #2af598 100%);
-}
-.sp-black-bg .sp-logo {
-  font-size: 50px;
-  cursor: pointer;
-  color: white;
-}
-.sp-black-bg .sp-logout {
-  background-color: white;
-  border: none;
-  padding: 10px 30px;
-  font-family: "Kanit";
-  border-radius: 10px;
-  cursor: pointer;
+  min-height: 100vh;
 }
 .sp-container .sp-white-bg {
   /* background-color: purple; */
@@ -76,7 +53,6 @@
 .sp-container .sp-info-content {
   display: flex;
   justify-content: space-around;
-  height: 75vh;
   font-family: "Kanit";
 }
 /* left info */

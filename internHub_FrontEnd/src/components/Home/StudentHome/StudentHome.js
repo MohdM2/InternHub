@@ -13,20 +13,7 @@ export default function StudentHome() {
   const [jobs, setJobs] = useState([]);
   const [applications, setApplicationss] = useState([]);
   const { user } = useUser();
-  async function fetchJobs() {
-    try {
-      const jobs = await axios.get(`http://localhost:8080/jobs`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      setJobs(jobs.data.data);
-    } catch (e) {
-      alert(e);
-      console.log(e);
-    }
-  }
-  async function fetchApplications() {
+  async function fetchData() {
     try {
       const applications = await axios.get(
         `http://localhost:8080/applications/student/${user.data.id}`,
@@ -37,14 +24,20 @@ export default function StudentHome() {
         }
       );
       setApplicationss(applications.data.data);
+      const appliedJobs = applications.data.data.map((a) => a.job.id);
+      const jobs = await axios.get(`http://localhost:8080/jobs`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      setJobs(jobs.data.data.filter((j) => !appliedJobs.includes(j.id)));
     } catch (e) {
       alert(e);
       console.log(e);
     }
   }
   useEffect(() => {
-    fetchJobs();
-    fetchApplications();
+    fetchData();
   }, []);
   console.log(applications);
   function seeAllPosts() {
@@ -59,7 +52,7 @@ export default function StudentHome() {
 
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 1000);
   }, []);
 
   return loading ? (
@@ -73,6 +66,7 @@ export default function StudentHome() {
         top: "50%",
         transform: "translateXY(-50%,-50%)",
       }}
+      speedMultiplier={2}
     />
   ) : (
     <>
@@ -100,7 +94,7 @@ export default function StudentHome() {
           <h1>Apply now </h1>
           <div className="st-apply-container">
             {jobs.map((j) => (
-              <Apply data={j} submit={fetchApplications} />
+              <Apply data={j} submit={fetchData} />
             ))}
           </div>
           <div className="st-seeall">

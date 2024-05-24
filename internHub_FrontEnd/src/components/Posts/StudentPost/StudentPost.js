@@ -3,10 +3,12 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../Contexts/UserContext";
+import { useSnackBar } from "../../../Contexts/SnackbarContext";
 import axios from "axios";
 export default function StudentPost({ data, respond }) {
   const navigate = useNavigate();
   const { user } = useUser();
+  const { showSnackBar } = useSnackBar();
   async function acceptApplication(e) {
     e.stopPropagation();
     try {
@@ -19,6 +21,7 @@ export default function StudentPost({ data, respond }) {
           },
         }
       );
+      showSnackBar("Application accepted");
       respond();
     } catch (e) {
       alert(e);
@@ -37,6 +40,7 @@ export default function StudentPost({ data, respond }) {
           },
         }
       );
+      showSnackBar("Application rejected");
       respond();
     } catch (e) {
       alert(e);
@@ -57,24 +61,32 @@ export default function StudentPost({ data, respond }) {
         </div>
         <hr style={{ width: "100%" }} />
         <div className="footer">
-          <span>
-            <CheckCircleOutlineIcon style={{ color: "#1EA81B" }} />
-            <input
-              type="submit"
-              value="Accept"
-              className="accept"
-              onClick={acceptApplication}
-            />
-          </span>
-          <span>
-            <CancelIcon style={{ color: "red" }} />
-            <input
-              type="submit"
-              value="Reject"
-              className="reject"
-              onClick={rejectApplication}
-            />
-          </span>
+          {data.status !== "Accepted" ? (
+            <span>
+              <CheckCircleOutlineIcon style={{ color: "#1EA81B" }} />
+              <input
+                type="submit"
+                value="Accept"
+                className="accept"
+                onClick={acceptApplication}
+              />
+            </span>
+          ) : (
+            ""
+          )}
+          {data.status !== "Rejected" ? (
+            <span>
+              <CancelIcon style={{ color: "red" }} />
+              <input
+                type="submit"
+                value="Reject"
+                className="reject"
+                onClick={rejectApplication}
+              />
+            </span>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

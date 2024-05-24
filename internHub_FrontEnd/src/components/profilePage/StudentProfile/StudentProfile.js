@@ -15,7 +15,8 @@ export default function StudentProfile() {
     async function fetchData() {
       try {
         let currentStudent = null;
-        if (id === user.id) currentStudent = user.data;
+        if (user.type === "student" && id === user.id)
+          currentStudent = user.data;
         else
           currentStudent = (
             await axios.get(`http://localhost:8080/students/${id}`, {
@@ -38,20 +39,20 @@ export default function StudentProfile() {
   }
 
   const [loading, setLoading] = useState(false);
-  let [color, setColor] = useState("#36d7b7");
+  let color = "#36d7b7";
 
   useEffect(() => {
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 1000);
   }, []);
 
   return loading ? (
     <ClimbingBoxLoader
       color={color}
-      loading={loading}
+      loading={true}
       size={20}
       style={{
         position: "absolute",
@@ -59,6 +60,7 @@ export default function StudentProfile() {
         top: "50%",
         transform: "translateXY(-50%,-50%)",
       }}
+      speedMultiplier={2}
     />
   ) : (
     <>
@@ -72,7 +74,7 @@ export default function StudentProfile() {
             <h2 className="sp-major">{student.major}</h2>
           </div>
           <div className="sp-editprofile">
-            {student.id === user.data.id ? (
+            {user.type === "student" && student.id === user.data.id ? (
               <input
                 className="input"
                 type="submit"
@@ -87,7 +89,7 @@ export default function StudentProfile() {
         <div className="sp-info-content">
           <div className="sp-left-info">
             <div className="sp-aboutme">
-              <h1>About me</h1>
+              <h1>About Me</h1>
               <p>{student.bio}</p>
             </div>
             <hr />

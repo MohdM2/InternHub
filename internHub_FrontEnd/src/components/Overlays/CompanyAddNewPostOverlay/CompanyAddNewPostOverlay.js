@@ -16,6 +16,7 @@ import DropDown from "../../DropDownList/DropDown";
 import { useUser } from "../../../Contexts/UserContext";
 import axios from "axios";
 import { Category } from "@mui/icons-material";
+import { useSnackBar } from "../../../Contexts/SnackbarContext";
 const theme = createTheme({
   palette: {
     blue: {
@@ -41,6 +42,7 @@ function CompanyAddNewPostOverlay({ submit }) {
     paid: false,
     salary: 0,
   });
+  const { showSnackBar } = useSnackBar();
   useEffect(() => {
     async function fetchData() {
       try {
@@ -96,6 +98,7 @@ function CompanyAddNewPostOverlay({ submit }) {
       console.log("Post created successfully:", response.data);
       handleClose();
       submit();
+      showSnackBar("Post created successfully");
     } catch (error) {
       alert("Error submitting post: " + error.message);
       console.error("Error submitting post:", error);
@@ -105,12 +108,7 @@ function CompanyAddNewPostOverlay({ submit }) {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Button
-          className="input"
-          variant="contained"
-          onClick={handleClickOpen}
-          color="blue"
-        >
+        <Button className="input" variant="contained" onClick={handleClickOpen}>
           Post an Internship
         </Button>
 
@@ -307,7 +305,7 @@ function CompanyAddNewPostOverlay({ submit }) {
               ) : (
                 <Button onClick={() => setShowPreview(true)}>Preview</Button>
               )}
-              <Button type="submit" variant="contained" color="blue">
+              <Button type="submit" variant="contained">
                 Submit
               </Button>
             </DialogActions>

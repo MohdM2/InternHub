@@ -5,17 +5,29 @@ import CompanyPost from "../../Posts/CompanyPost/CompanyPost";
 import { useUser } from "../../../Contexts/UserContext";
 import NavBar from "../../Nav/NavBar";
 import axios from "axios";
+import { ClimbingBoxLoader } from "react-spinners";
 export default function CompanyProfile() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [company, setCompany] = useState("");
   const { user } = useUser();
   const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  let color = "#36d7b7";
+
+  useEffect(() => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+  console.log(user.type, user.data.id, id);
   useEffect(() => {
     async function fetchJobs() {
       try {
         let company = null;
-        if (id === user.id) company = user.data;
+        if (user.type === "company" && id === user.id) company = user.data;
         else
           company = (
             await axios.get(`http://localhost:8080/companies/${id}`, {
@@ -44,7 +56,20 @@ export default function CompanyProfile() {
   function editProfile() {
     navigate("/companyedit", {});
   }
-  return (
+  return loading ? (
+    <ClimbingBoxLoader
+      color={color}
+      loading={loading}
+      size={20}
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translateXY(-50%,-50%)",
+      }}
+      speedMultiplier={2}
+    />
+  ) : (
     <div className="cp-container">
       <NavBar showHomeButton={true} />
       <div className="cp-white-bg">
@@ -63,7 +88,7 @@ export default function CompanyProfile() {
           <h1 className="cp-name">{company.name}</h1>
           <h2 className="cp-major">{company.speciality}</h2>
         </div>
-        {user.data.id == id ? (
+        {user.type === "company" && user.data.id == id ? (
           <div className="cp-editprofile">
             <input
               className="input"
@@ -90,26 +115,32 @@ export default function CompanyProfile() {
               Email address<span>{company.email}</span>{" "}
             </div>
             <div className="cp-location">
-              Location <span>{company.address}</span>{" "}
+              Country <span>{company.country}</span>{" "}
             </div>
+            <div className="cp-location">
+              City <span>{company.city}</span>{" "}
+            </div>
+            <div className="cp-location">
+              Address <span>{company.address}</span>{" "}
+            </div>
+
             <div className="cp-phone">
               Phone number<span>{company.phone}</span>{" "}
             </div>
 
             <div className="cp-employeesnumber">
-              Number of Employees <span>{company.numEmployees}</span>{" "}
+              Number of Employees <span>{company.numberOfEmployees}</span>{" "}
             </div>
           </div>
-
-          <hr />
-          <div className="cp-internships">
-            <h1>Recent internships</h1>
-            <div className="cp-posts-container">
-              {jobs.slice(-3).map((j) => (
-                <CompanyPost data={j} />
-              ))}
-            </div>
-          </div>
+        </div>
+      </div>
+      <hr style={{ width: "100%" }} />
+      <div className="cp-internships">
+        <h1>Recent internships</h1>
+        <div className="cp-posts-container">
+          {jobs.slice(-3).map((j) => (
+            <CompanyPost data={j} />
+          ))}
         </div>
       </div>
     </div>
