@@ -25,6 +25,13 @@ export default function PaidUnPaid({ value, change }) {
   const handleSalaryChange = (event) => {
     setSalary(event.target.value);
   };
+  function numberInputOnWheelPreventChange(e) {
+    e.target.blur();
+    e.stopPropagation();
+    setTimeout(() => {
+      e.target.focus();
+    }, 0);
+  }
 
   return (
     <FormControl>
@@ -45,10 +52,14 @@ export default function PaidUnPaid({ value, change }) {
       </RadioGroup>
       {selectedValue === "Paid" && (
         <TextField
+          required
+          type="number"
+          inputProps={{ min: 50 }}
           label="Specify Salary"
           variant="outlined"
           fullWidth
           value={salary}
+          onWheel={numberInputOnWheelPreventChange}
           onChange={handleSalaryChange}
         />
       )}

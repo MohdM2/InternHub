@@ -71,6 +71,17 @@ function CompanyAddNewPostOverlay({ submit }) {
   };
 
   const handleClose = () => {
+    setData({
+      title: "",
+      category: availableCategories[0],
+      type: internShipType[0],
+      duration: internShipDuration[0],
+      description: "",
+      skills: [],
+      paid: false,
+      salary: 0,
+    });
+    setShowPreview(false);
     setOpen(false);
   };
 
@@ -119,7 +130,7 @@ function CompanyAddNewPostOverlay({ submit }) {
           maxWidth={"xl"}
           // style={{ paddingBottom: "1px" }}
         >
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={(e) => e.preventDefault()}>
             {!showPreview && <DialogTitle>Add a New Internship</DialogTitle>}
             <DialogContent>
               {!showPreview && (
@@ -303,11 +314,27 @@ function CompanyAddNewPostOverlay({ submit }) {
               {showPreview ? (
                 <Button onClick={() => setShowPreview(false)}>Edit</Button>
               ) : (
-                <Button onClick={() => setShowPreview(true)}>Preview</Button>
+                ""
               )}
-              <Button type="submit" variant="contained">
-                Submit
-              </Button>
+              {showPreview ? (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  onClick={(e) => {
+                    setShowPreview(true);
+                  }}
+                >
+                  Preview
+                </Button>
+              )}
             </DialogActions>
           </form>
         </Dialog>

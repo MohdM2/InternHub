@@ -69,8 +69,6 @@ function CompanyInfo() {
       data.append("bio", bio);
       data.append("speciality", companySpeciality);
       data.append("numberOfEmployees", numEmployees);
-      console.log(user);
-      console.log(`http://localhost:8080/companies/${user.data.id}`);
       if (logo.file) data.append("logoFile", logo.file);
       const response = await axios.put(
         `http://localhost:8080/companies/${user.data.id}`,
@@ -211,6 +209,7 @@ function CompanyInfo() {
                 className="input small"
                 type="text"
                 value={phone}
+                pattern="[0-9]*"
                 onChange={(e) => setPhone(e.target.value)}
                 required
               />

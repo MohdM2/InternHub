@@ -18,7 +18,6 @@ export default function StudentPostsPreview() {
   const [type, setType] = useState(internShipType[0]);
   const [duration, setDuration] = useState(internShipDuration[0]);
   const [availableCategories, setAvailableCategories] = useState([]);
-  console.log(jobs);
   async function fetchData() {
     try {
       const categories = await axios.get(`http://localhost:8080/categories`, {
@@ -53,7 +52,6 @@ export default function StudentPostsPreview() {
     fetchData();
   }, []);
   function filter() {
-    console.log(duration, type);
     setFilteredJobs(
       jobs.filter((j) => {
         return (

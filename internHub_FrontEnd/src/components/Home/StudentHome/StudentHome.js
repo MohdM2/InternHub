@@ -39,13 +39,12 @@ export default function StudentHome() {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(applications);
   function seeAllPosts() {
     navigate("/studentpostspreview", {});
   }
 
   const [loading, setLoading] = useState(false);
-  let [color, setColor] = useState("#36d7b7");
+  let color = "#36d7b7";
 
   useEffect(() => {
     setLoading(true);

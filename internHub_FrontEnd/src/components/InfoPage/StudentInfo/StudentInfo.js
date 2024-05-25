@@ -251,6 +251,7 @@ export default function StudentInfo() {
                 className="input-phone"
                 type="tel"
                 value={phone}
+                pattern="[0-9]*"
                 onChange={(e) => setPhone(e.target.value)}
                 required
               />
@@ -304,6 +305,9 @@ export default function StudentInfo() {
                   type="number"
                   className="input-number"
                   value={gpa}
+                  min={0}
+                  max={4}
+                  step={0.01}
                   onWheel={numberInputOnWheelPreventChange}
                   onChange={(e) => setGpa(e.target.value)}
                   required

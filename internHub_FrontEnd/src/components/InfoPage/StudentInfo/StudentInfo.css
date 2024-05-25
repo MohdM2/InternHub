@@ -78,7 +78,7 @@ input::-webkit-inner-spin-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 150px;
+  gap: 100px;
   width: 100%;
 }
 .si-bio-container .si-dropdown-container .si-label {

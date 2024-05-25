@@ -22,9 +22,8 @@ export default function DropDown({
         renderInput={(params) => (
           <TextField
             {...params}
-            // variant="standard"
-            // label="Multiple values"
             placeholder={title}
+            sx={{ minWidth: "200px" }}
           />
         )}
       />
