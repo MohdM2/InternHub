@@ -87,32 +87,40 @@ function CompanyAddNewPostOverlay({ submit }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      // Assuming you have an API endpoint for creating a new post
-      const params = {
-        company: user.data,
-        name: data.title,
-        description: data.description,
-        duration: data.duration,
-        paid: data.paid,
-        salary: data.salary,
-        category: data.category,
-        onSiteRemote: data.type,
-        skills: data.skills,
-      };
-      console.log(JSON.stringify(params));
-      const response = await axios.post("http://localhost:8080/jobs", params, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      console.log("Post created successfully:", response.data);
-      handleClose();
-      submit();
-      showSnackBar("Post created successfully");
-    } catch (error) {
-      alert("Error submitting post: " + error.message);
-      console.error("Error submitting post:", error);
+    if (showPreview) {
+      try {
+        // Assuming you have an API endpoint for creating a new post
+        const params = {
+          company: user.data,
+          name: data.title,
+          description: data.description,
+          duration: data.duration,
+          paid: data.paid,
+          salary: data.salary,
+          category: data.category,
+          onSiteRemote: data.type,
+          skills: data.skills,
+        };
+        console.log(JSON.stringify(params));
+        const response = await axios.post(
+          "http://localhost:8080/jobs",
+          params,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+        console.log("Post created successfully:", response.data);
+        handleClose();
+        submit();
+        showSnackBar("Post created successfully");
+      } catch (error) {
+        alert("Error submitting post: " + error.message);
+        console.error("Error submitting post:", error);
+      }
+    } else {
+      setShowPreview(true);
     }
   };
 
@@ -130,7 +138,7 @@ function CompanyAddNewPostOverlay({ submit }) {
           maxWidth={"xl"}
           // style={{ paddingBottom: "1px" }}
         >
-          <form onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={handleSubmit}>
             {!showPreview && <DialogTitle>Add a New Internship</DialogTitle>}
             <DialogContent>
               {!showPreview && (
@@ -317,21 +325,11 @@ function CompanyAddNewPostOverlay({ submit }) {
                 ""
               )}
               {showPreview ? (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  onClick={handleSubmit}
-                >
+                <Button type="submit" variant="contained">
                   Submit
                 </Button>
               ) : (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  onClick={(e) => {
-                    setShowPreview(true);
-                  }}
-                >
+                <Button type="submit" variant="contained">
                   Preview
                 </Button>
               )}

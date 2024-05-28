@@ -104,7 +104,9 @@ export default function StudentPreviewPostOverlay({ data, submit }) {
                         <span>{data.onSiteRemote}</span>
                         <span>{data.duration}</span>
                         <span>
-                          {data.paid ? `${data.salary} JOD` : "Unpaid"}
+                          {!data.paid || !data.salary
+                            ? "Unpaid"
+                            : `${data.salary} JOD`}
                         </span>
                       </div>
                     </div>
