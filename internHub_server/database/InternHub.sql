@@ -103,6 +103,7 @@ CREATE TABLE student_skills (
 INSERT INTO skills (name) VALUES
 ('Python'),
 ('Java'),
+('C#'),
 ('C/C++'),
 ('JavaScript'),
 ('Ruby'),

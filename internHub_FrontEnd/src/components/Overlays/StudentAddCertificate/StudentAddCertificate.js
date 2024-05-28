@@ -23,13 +23,14 @@ export default function StudentAddCertificate({ addCertificate }) {
   let [to, setTo] = useState("");
 
   function handleAddCertificate() {
-    if (certificate && certificateProvider && from && to)
+    if (certificate && certificateProvider && from && to) {
       addCertificate(certificate, certificateProvider, from, to);
-    setCertificate("");
-    setCertificateProvider("");
-    setFrom("");
-    setTo("");
-    setOpen(false);
+      setCertificate("");
+      setCertificateProvider("");
+      setFrom("");
+      setTo("");
+      setOpen(false);
+    }
   }
   return (
     <React.Fragment>
