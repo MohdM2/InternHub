@@ -4,8 +4,6 @@ services:
   mysql:
     container_name: mysql_database
     build: ./database
-    # ports:
-    #   - 33333:3306
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pintern123321"]
       retries: 10

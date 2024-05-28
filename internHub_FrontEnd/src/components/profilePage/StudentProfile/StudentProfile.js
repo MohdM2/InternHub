@@ -10,7 +10,6 @@ export default function StudentProfile() {
   const { id } = useParams();
   const { user, updateUser } = useUser();
   const [student, setStudent] = useState({ courses: [], skills: [] });
-  console.log(student);
   useEffect(() => {
     async function fetchData() {
       try {

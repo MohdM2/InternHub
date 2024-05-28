@@ -6,7 +6,6 @@ export function SnackbarProvider({ children }) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   function showSnackBar(message) {
-    console.log("SNAAAAAAAAAAAAAAACK");
     setOpen(true);
     setMessage(message);
     setTimeout(() => setOpen(false), 2000);

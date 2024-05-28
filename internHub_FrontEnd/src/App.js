@@ -17,10 +17,6 @@ import { useEffect } from "react";
 function App() {
   const { user, updateUser } = useUser();
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   console.log("effect");
-  //   if (user == null) updateUser(JSON.parse(localStorage.getItem("user")));
-  // });
 
   return (
     <div className="app">

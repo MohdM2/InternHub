@@ -22,7 +22,6 @@ export default function CompanyProfile() {
       setLoading(false);
     }, 1000);
   }, []);
-  console.log(user.type, user.data.id, id);
   useEffect(() => {
     async function fetchJobs() {
       try {

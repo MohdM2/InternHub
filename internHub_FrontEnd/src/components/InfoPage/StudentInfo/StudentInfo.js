@@ -127,7 +127,6 @@ export default function StudentInfo() {
           },
         }
       );
-      console.log(response.data.data);
       updateUser({ ...user, data: response.data.data });
       navigate("/studentdone", {});
     } catch (e) {

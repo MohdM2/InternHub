@@ -38,7 +38,6 @@ export default function StudentPreviewPostOverlay({ data, submit }) {
         student: user.data,
         job: data,
       };
-      console.log(JSON.stringify(params));
       const response = await axios.post(
         "http://localhost:8080/applications",
         params,
